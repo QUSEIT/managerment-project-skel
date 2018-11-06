@@ -1,0 +1,9 @@
+version: "2"
+services:
+
+  node:
+    volumes:
+      - ../application:/app
+      - ../README.md:/README.md
+      # For macOS users (https://wodby.com/stacks/drupal/docs/local/docker-for-mac/)
+      #- ../reactjs:/app:cached
