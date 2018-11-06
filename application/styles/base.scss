@@ -1,9 +1,28 @@
-body {
-  font-family: sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  background: #FDFDFD;
+body, div, h1, h2, h3, h4, h5, a, img, p, span, ul, li, i, input, textarea {
   margin: 0;
   padding: 0;
-  min-width: 250px;
+  display: block;
+  font-family: PingFangSC-Regular;
 }
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  border: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+input, textarea {
+  border: none;
+  outline: none;
+}
+

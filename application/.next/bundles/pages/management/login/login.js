@@ -79,7 +79,114 @@ function (_React$Component) {
           fileName: _jsxFileName,
           lineNumber: 6
         }
-      }, "\u767B\u5F55");
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "login-center",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 7
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "logo",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 8
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 9
+        }
+      }, "logo")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "switch-login",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 11
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("ul", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 12
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("li", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 13
+        }
+      }, "\u8D26\u53F7\u5BC6\u7801\u767B\u5F55"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("li", {
+        className: "active",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 14
+        }
+      }, "\u624B\u673A\u53F7\u767B\u5F55"))), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "input-wrapper",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 17
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("ul", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 18
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("li", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 19
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", {
+        type: "numbers",
+        placeholder: "\u624B\u673A\u53F7",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 20
+        }
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("li", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", {
+        type: "number",
+        placeholder: "\u9A8C\u8BC1\u7801",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 23
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 24
+        }
+      }, "\u83B7\u53D6\u9A8C\u8BC1\u7801")))), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 28
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 29
+        }
+      }, "\u5FD8\u8BB0\u5BC6\u7801")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "submit-btn",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 31
+        }
+      }, "\u767B\u5F55"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 32
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 33
+        }
+      }, "\u6CE8\u518C\u8D26\u6237"))));
     }
   }]);
 
