@@ -1,7 +1,8 @@
 // Import default html document styles.
 @import "base";
-@import "login";
-@import "app";
+@import "management/login";
+@import "management/app";
+@import "management/home";
 
 // Import all styles near by the react components.
 @import "../components/**/*.scss";

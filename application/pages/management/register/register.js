@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Login extends React.Component {
+class ManagementRegister extends React.Component {
   // 状态机
   constructor (props) {
     super (props)
@@ -59,4 +59,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default ManagementRegister

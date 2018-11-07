@@ -1,6 +1,7 @@
 import React from 'react'
+import ManagementIndex from "../index";
 
-class Login extends React.Component {
+class ManagementLogin extends React.Component {
   // 状态机
   constructor (props) {
     super (props)
@@ -84,4 +85,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default ManagementLogin
