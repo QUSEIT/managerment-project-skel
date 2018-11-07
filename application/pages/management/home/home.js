@@ -17,11 +17,55 @@ class ManagementIndex extends React.Component {
   render() {
     return (
         <div className='home-wrapper'>
-          {/*左侧导航栏*/}
+          {/*leftNav*/}
           <div className='nav-wrapper'>
             <div className='nav-avatar'>
               <h1>logo</h1>
             </div>
+            <div className='nav-list'>
+              <ul>
+                <li>
+                  <span>dashboard</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+                <li>
+                  <span>表单也</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+                <li>
+                  <span>列表页</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+                <li>
+                  <span>详情页</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+                <li>
+                  <span>结果页</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+                <li>
+                  <span>异常页</span>
+                  <i>
+                    <img src="../../../static/img/ic_down_f.png" />
+                  </i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {/*topUserInfo*/}
+          <div className='top-user-wrapper'>
+
           </div>
         </div>
     )
