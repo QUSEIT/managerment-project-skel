@@ -1,3 +1,4 @@
+const apiRoutes = require('./server/routes/apiRoutes.js');
 const compression = require('compression');
 const express = require('express');
 const nextjs = require('next');
@@ -11,6 +12,10 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = nextjs({ dev });
 const handler = app.getRequestHandler();
 
+const environment = 'development';
+const config = require("./knexfile.js")[environment];
+const knex = require("knex")(config);
+
 app.prepare()
   .then(() => {
     // Initialize express.js server.
@@ -19,6 +24,7 @@ app.prepare()
     // Serve gzipped content where possible.
     expressServer.use(compression());
 
+    expressServer.use('/api', apiRoutes);
     // Add route to serve compiled SCSS from /assets/{build id}/main.css
     // Note: This is only used in production, in development css is inline.
     const sassResult = sass.renderSync({
@@ -57,3 +63,36 @@ app.prepare()
       console.log('> Ready on http://app.docker.localhost');
     });
   });
+
+
+
+
+// const loadData = ()=>{
+//   const timeot = setTimeout(function () {
+//     request
+//     .get('http://localhost')
+//     .set('Content-Type', 'application/json')
+//     .query({
+
+//     })
+//     .end((err, response) => {
+//       if (err) {
+//         console.log('[err]:',err);
+//       }
+//       const data = response.body.data;
+//       if(data === ''){
+//         loadData()
+//       }
+//       if (data && data.title != undefined) {
+//         knex('test_table')
+//         .returning('id')
+//         .insert({title:data.title})
+//         .then((resp)=>{
+//             loadData()
+//         })
+//       }
+//     });
+//   }, 50000000);
+// }
+
+// loadData()

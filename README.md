@@ -60,6 +60,13 @@ make install
 make up
 ```
 
+5. 数据库配置
+
+如修改过knex数据库定义文件, 需要进行migrate
+```
+make migrate
+```
+
 ## 如何开发
 
 

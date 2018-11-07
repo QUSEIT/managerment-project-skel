@@ -43,14 +43,9 @@ install:
 lint:
 	@echo "${YELLOW}Checking coding styles...${COLOR_END}"
 	docker-compose run node yarn eslint --fix
-
-dbpg:
-	@echo "${YELLOW}Connecting database...${COLOR_END}"
-	docker-compose run node  npm run knex
-
 migrate:
 	@echo "${YELLOW}Making migrate...${COLOR_END}"
-	docker-compose run node npm run migrate
+	docker-compose run node npm run knex
 
 # https://stackoverflow.com/a/6273809/1826109
 %:

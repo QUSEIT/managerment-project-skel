@@ -7,14 +7,11 @@ const knex = require("knex")(config);
 
 const async = require('async');
 
-router.get('/testdb', (req, res) => {
+router.get('/testdbapi', (req, res) => {
 	knex('test_table').limit(3).then((data) => {
-		knex('img_object').where('id', 'title').then((count) => {
 			res.status(200).json({
-				data,
-				count: count.length
+				data
 			});
-		})
 	})
 });
 
@@ -22,9 +19,13 @@ router.get('/testdb', (req, res) => {
 router.get('/adddb', (req, res) => {
 	t = ''
 	for (var i = 0; i < 10; i++) {
-		t += String.fromCharCode(parseInt(Math.random() * 100))
+		t += String.fromCharCode(parseInt(Math.random() * 58)+64)
 	}
-	knex('test_table').insert({ title: t })
+	knex('test_table').insert({ title: t }).then(
+		res.status(200).json({
+				msg: 'success'
+			})
+		)
 });
 
 module.exports = router;
