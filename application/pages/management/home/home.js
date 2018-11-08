@@ -1,4 +1,5 @@
 import React from 'react'
+import CardList from '../../../components/management/cardList/cardList'
 
 class ManagementIndex extends React.Component {
   // 状态机
@@ -17,6 +18,16 @@ class ManagementIndex extends React.Component {
   render() {
     return (
         <div className='home-wrapper'>
+          {/*topUserInfo*/}
+          <div className='top-user-wrapper'>
+            <div className='top-user'>
+              <h1>头像</h1>
+              <span>用户名</span>
+            </div>
+            <div className='seek-icon'>
+              <img src="../../../static/img/ic_search.png" />
+            </div>
+          </div>
           {/*leftNav*/}
           <div className='nav-wrapper'>
             <div className='nav-avatar'>
@@ -63,9 +74,20 @@ class ManagementIndex extends React.Component {
               </ul>
             </div>
           </div>
-          {/*topUserInfo*/}
-          <div className='top-user-wrapper'>
-
+          {/*mainWrapper*/}
+          <div className='main'>
+            {/*mainNav*/}
+            <div className='main-nav'>
+              <div className='main-nav-list'>
+                <a href='javascript:;'>首页</a>
+                <span>/</span>
+                <a href='javascript:;'>列表页</a>
+                <span>/</span>
+                <a href='javascript:;' className='active'>卡片列表</a>
+              </div>
+              <h3>这个一个标题</h3>
+            </div>
+            <CardList/>
           </div>
         </div>
     )

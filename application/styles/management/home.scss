@@ -4,7 +4,57 @@
   top: 0;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   background-color: #f5f5f5;
+  .top-user-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 30px;
+    z-index: 80;
+    box-shadow: 0 1px 4px 0 rgba(0,21,41,0.12);
+    background: #FFFFFF;
+    box-sizing: border-box;
+    .top-user {
+      height: 100%;
+      float: right;
+      display: flex;
+      align-items: center;
+      h1 {
+        width: 32px;
+        height: 32px;
+        margin: 0 15px 0 20px;
+        border-radius: 50%;
+        font-size: 12px;
+        text-align: center;
+        line-height: 32px;
+        overflow: hidden;
+        color: #ECEFF1;
+        background-color: #9E9E9E;
+      }
+      span {
+        height: 100%;
+        line-height: 60px;
+        font-size: 14px;
+        color: #4A4A4A;
+      }
+    }
+    .seek-icon {
+      float: right;
+      width: 60px;
+      height: 100%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 21px;
+        height: 21px;
+      }
+    }
+  }
   .nav-wrapper {
     position: fixed;
     left: 0;
@@ -67,14 +117,40 @@
       }
     }
   }
-  .top-user-wrapper {
-    position: fixed;
-    left: 0;
-    top: 0;
+  .main {
     width: 100%;
-    height: 60px;
-    z-index: 80;
-    box-shadow: 0 1px 4px 0 rgba(0,21,41,0.12);
-    background: #FFFFFF;
+    height: 100%;
+    padding: 60px 0 0 240px;
+    box-sizing: border-box;
+    .main-nav {
+      width: 100%;
+      height: auto;
+      padding: 0 30px;
+      background-color: #fff;
+      box-sizing: border-box;
+      .main-nav-list {
+        width: 100%;
+        height: auto;
+        padding-top: 15px;
+        display: flex;
+        a, span {
+          font-size: 14px;
+          line-height: 22px;
+          color: rgba(0,0,0,0.5);
+        }
+        .active {
+          color: rgba(0,0,0,0.7);
+        }
+        span {
+          padding: 0 6px;
+        }
+      }
+      h3 {
+        line-height: 60px;
+        font-family: PingFangSC-Medium;
+        font-size: 20px;
+        color: rgba(0,0,0,0.85);
+      }
+    }
   }
 }

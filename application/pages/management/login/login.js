@@ -1,5 +1,4 @@
 import React from 'react'
-import ManagementIndex from "../index";
 
 class ManagementLogin extends React.Component {
   // 状态机
