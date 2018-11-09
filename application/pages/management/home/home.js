@@ -1,5 +1,7 @@
 import React from 'react'
-import CardList from '../../../components/management/cardList/cardList'
+// import CardList from '../../../components/management/cardList/cardList'
+// import StandardList from '../../../components/management/standardList/standardList'
+import StandardTable from '../../../components/management/standardTable/standardTable'
 
 class ManagementIndex extends React.Component {
   // 状态机
@@ -83,11 +85,13 @@ class ManagementIndex extends React.Component {
                 <span>/</span>
                 <a href='javascript:;'>列表页</a>
                 <span>/</span>
-                <a href='javascript:;' className='active'>卡片列表</a>
+                <a href='javascript:;' className='active'>查询表格</a>
               </div>
               <h3>这个一个标题</h3>
             </div>
-            <CardList/>
+            {/*<CardList/>*/}
+            {/*<StandardList/>*/}
+            <StandardTable/>
           </div>
         </div>
     )

@@ -4,6 +4,8 @@
 @import "management/app";
 @import "management/home";
 @import "management/cardList";
+@import "management/standardList";
+@import "management/standardTable";
 
 // Import all styles near by the react components.
 @import "../components/**/*.scss";
