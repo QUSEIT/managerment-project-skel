@@ -1,7 +1,9 @@
 import React from 'react'
 // import CardList from '../../../components/management/cardList/cardList'
 // import StandardList from '../../../components/management/standardList/standardList'
-import StandardTable from '../../../components/management/standardTable/standardTable'
+// import StandardTable from '../../../components/management/standardTable/standardTable'
+// import BasicsForm from '../../../components/management/basicsForm/basicsForm'
+import SubmitSuccess from '../../../components/management/submitSuccess/submitSuccess'
 
 class ManagementIndex extends React.Component {
   // 状态机
@@ -91,7 +93,9 @@ class ManagementIndex extends React.Component {
             </div>
             {/*<CardList/>*/}
             {/*<StandardList/>*/}
-            <StandardTable/>
+            {/*<StandardTable/>*/}
+            {/*<BasicsForm/>*/}
+            <SubmitSuccess/>
           </div>
         </div>
     )

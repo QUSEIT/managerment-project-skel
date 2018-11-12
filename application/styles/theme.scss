@@ -6,6 +6,8 @@
 @import "management/cardList";
 @import "management/standardList";
 @import "management/standardTable";
+@import "management/basicsForm";
+@import "management/submitSuccess";
 
 // Import all styles near by the react components.
 @import "../components/**/*.scss";
