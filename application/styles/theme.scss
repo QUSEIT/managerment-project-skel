@@ -8,6 +8,10 @@
 @import "management/standardTable";
 @import "management/basicsForm";
 @import "management/submitSuccess";
+@import "management/submitError";
+@import "management/basicsDetail";
+@import "management/basicsFrame";
+@import "management/unusualError";
 
 // Import all styles near by the react components.
 @import "../components/**/*.scss";

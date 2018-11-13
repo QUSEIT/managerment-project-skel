@@ -1,9 +1,15 @@
 import React from 'react'
-// import CardList from '../../../components/management/cardList/cardList'
+import CardList from '../../../components/management/cardList/cardList'
 // import StandardList from '../../../components/management/standardList/standardList'
 // import StandardTable from '../../../components/management/standardTable/standardTable'
 // import BasicsForm from '../../../components/management/basicsForm/basicsForm'
-import SubmitSuccess from '../../../components/management/submitSuccess/submitSuccess'
+// import SubmitSuccess from '../../../components/management/submitSuccess/submitSuccess'
+// import SubmitError from '../../../components/management/submitError/submitError'
+// import BasicsDetail from '../../../components/management/basicsDetail/basicsDetail'
+// import BasicsFrame from '../../../components/management/basicsFrame/basicsFrame'
+// import Error500 from '../../../components/management/error500/error500'
+// import Error404 from '../../../components/management/error404/error404'
+// import Error403 from '../../../components/management/error403/error403'
 
 class ManagementIndex extends React.Component {
   // 状态机
@@ -91,11 +97,17 @@ class ManagementIndex extends React.Component {
               </div>
               <h3>这个一个标题</h3>
             </div>
-            {/*<CardList/>*/}
+            <CardList/>
             {/*<StandardList/>*/}
             {/*<StandardTable/>*/}
             {/*<BasicsForm/>*/}
-            <SubmitSuccess/>
+            {/*<SubmitSuccess/>*/}
+            {/*<SubmitError/>*/}
+            {/*<BasicsDetail/>*/}
+            {/*<BasicsFrame/>*/}
+            {/*<Error500/>*/}
+            {/*<Error404/>*/}
+            {/*<Error403/>*/}
           </div>
         </div>
     )
