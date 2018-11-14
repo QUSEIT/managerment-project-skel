@@ -18,7 +18,7 @@ class ManagementLogin extends React.Component {
   }
   // 跳转home页面
   onSkipHomeFn = () => {
-    Router.push('/management/home/home')
+    Router.push('/')
   }
 
   render() {
