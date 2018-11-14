@@ -1,5 +1,5 @@
 import React from 'react'
-import CardList from '../../../components/management/cardList/cardList'
+// import CardList from '../../../components/management/cardList/cardList'
 // import StandardList from '../../../components/management/standardList/standardList'
 // import StandardTable from '../../../components/management/standardTable/standardTable'
 // import BasicsForm from '../../../components/management/basicsForm/basicsForm'
@@ -97,7 +97,7 @@ class ManagementIndex extends React.Component {
               </div>
               <h3>这个一个标题</h3>
             </div>
-            <CardList/>
+            {/*<CardList/>*/}
             {/*<StandardList/>*/}
             {/*<StandardTable/>*/}
             {/*<BasicsForm/>*/}

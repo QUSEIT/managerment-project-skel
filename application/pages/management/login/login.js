@@ -1,4 +1,5 @@
 import React from 'react'
+import Router from 'next/router'
 
 class ManagementLogin extends React.Component {
   // 状态机
@@ -14,6 +15,10 @@ class ManagementLogin extends React.Component {
   }
   // 加载完成页面之后
   componentDidMount () {
+  }
+  // 跳转home页面
+  onSkipHomeFn = () => {
+    Router.push('/management/home/home')
   }
 
   render() {
@@ -74,7 +79,7 @@ class ManagementLogin extends React.Component {
               </div>
               <a href='#'>忘记密码</a>
             </div>
-            <div className='submit-btn'>登录</div>
+            <div className='submit-btn' onClick={this.onSkipHomeFn}>登录</div>
             <div className='login-text'>
               <a href={this.state.path}>注册账户</a>
             </div>

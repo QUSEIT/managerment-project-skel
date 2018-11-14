@@ -1,16 +1,246 @@
-import React from 'react';
-import HelloFriend from '../components/HelloFriend';
+import React from 'react'
+// import HelloFriend from '../components/HelloFriend'
+// import BasicsFrame from '../components/management/basicsFrame/basicsFrame'
+import AnalysePage from '../components/management/analysePage/analysePage'
+import CardList from '../components/management/cardList/cardList'
+import StandardList from '../components/management/standardList/standardList'
+import StandardTable from '../components/management/standardTable/standardTable'
+import BasicsForm from '../components/management/basicsForm/basicsForm'
+import BasicsDetail from '../components/management/basicsDetail/basicsDetail'
+import SubmitError from '../components/management/submitError/submitError'
+import SubmitSuccess from '../components/management/submitSuccess/submitSuccess'
+import Error403 from '../components/management/error403/error403'
+import Error404 from '../components/management/error404/error404'
+import Error500 from '../components/management/error500/error500'
 
 class Page extends React.Component {
-  static async getInitialProps() {
-    return {
-      name: 'value',
-    };
+  // 状态机
+  constructor (props) {
+    super (props)
+    this.state = {
+      navList: [],
+      title: '卡片列表',
+      listTitle: '列表页',
+      componentBase: CardList
+    }
+  }
+  // 将要加载页面之前
+  componentWillMount = () => {
+    const navList = [
+      {
+        title: 'dashboard',
+        status: false,
+        childrenList: [
+          {
+            name: '分析页',
+            status: false,
+            component: AnalysePage
+          }
+        ]
+      },
+      {
+        title: '列表页',
+        status: false,
+        childrenList: [
+          {
+            name: '查询表格',
+            status: false,
+            component: StandardTable
+          },
+          {
+            name: '标准列表',
+            status: false,
+            component: StandardList
+          },
+          {
+            name: '卡片列表',
+            status: false,
+            component: CardList
+          }
+        ]
+      },
+      {
+        title: '表单页',
+        status: false,
+        childrenList: [
+          {
+            name: '基础表格',
+            status: false,
+            component: BasicsForm
+          }
+        ]
+      },
+      {
+        title: '详情页',
+        status: false,
+        childrenList: [
+          {
+            name: '基础详情',
+            status: false,
+            component: BasicsDetail
+          }
+        ]
+      },
+      {
+        title: '结果页',
+        status: false,
+        childrenList: [
+          {
+            name: '提交失败',
+            status: false,
+            component: SubmitError
+          },
+          {
+            name: '提交成功',
+            status: false,
+            component: SubmitSuccess
+          }
+        ]
+      },
+      {
+        title: '异常页',
+        status: false,
+        childrenList: [
+          {
+            name: '403',
+            status: false,
+            component: Error403
+          },
+          {
+            name: '404',
+            status: false,
+            component: Error404
+          },
+          {
+            name: '500',
+            status: false,
+            component: Error500
+          }
+        ]
+      }
+    ]
+    this.setState({
+      navList: navList
+    })
+  }
+  // 加载完成页面之后
+  componentDidMount () {
+  }
+  // 展开二级导航
+  onExpandNavFn = (index) => {
+    this.state.navList.forEach((e, i) => {
+      if (index === i) {
+        e.status = !e.status
+      } else {
+        e.status = false
+      }
+    })
+    this.setState({
+      navList: this.state.navList
+    })
+  }
+  // 跳转页面
+  onSkipPageFn = (evnt, index, idx) => {
+    const _this = this
+    this.state.navList.forEach((e, i) => {
+      e.childrenList.forEach((o, j) => {
+        if (index === i && idx === j) {
+          _this.setState({
+            componentBase: o.component,
+            listTitle: e.title,
+            title: o.name
+          })
+          o.status = true
+        } else {
+          o.status = false
+        }
+      })
+    })
+    this.setState({
+      navList: this.state.navList
+    })
+    evnt.stopPropagation()
   }
 
   render() {
-    return <HelloFriend />;
+    return(
+        <div className='home-wrapper'>
+          {/*topUserInfo*/}
+          <div className='top-user-wrapper'>
+            <div className='top-user'>
+              <h1>头像</h1>
+              <span>用户名</span>
+            </div>
+            <div className='seek-icon'>
+              <img src="../../../static/img/ic_search.png" />
+            </div>
+          </div>
+          {/*leftNav*/}
+          <div className='nav-wrapper'>
+            <div className='nav-avatar'>
+              <h1>logo</h1>
+            </div>
+            <div className='nav-list'>
+              <ul>
+                {
+                  this.state.navList.map((e, index) => {
+                    return (
+                      <li
+                          key={index}
+                          className={e.status ? 'active' : ''}
+                          style={{height: e.status ? e.childrenList.length * 40 + 50 + 'px' : '50px'}}
+                          onClick={() => {
+                            this.onExpandNavFn(index)
+                          }}
+                      >
+                        <div className='first-wrapper'>
+                          <span>{e.title}</span>
+                          <i>
+                            <img src="../../../static/img/ic_down_f.png" />
+                          </i>
+                        </div>
+                        <div className='children-wrapper'>
+                          {
+                            e.childrenList.map((o, idx) => {
+                              return (
+                                <a
+                                    href='javascript:;'
+                                    key={idx}
+                                    className={o.status ? 'active' : ''}
+                                    onClick={(e) => {
+                                      this.onSkipPageFn(e, index, idx)
+                                    }}
+                                >{o.name}</a>
+                              )
+                            })
+                          }
+                        </div>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </div>
+          {/*mainWrapper*/}
+          <div className='main'>
+            {/*mainNav*/}
+            <div className='main-nav'>
+              <div className='main-nav-list'>
+                <a href='javascript:;'>首页</a>
+                <span>/</span>
+                <a href='javascript:;'>{this.state.listTitle}</a>
+                <span>/</span>
+                <a href='javascript:;' className='active'>{this.state.title}</a>
+              </div>
+              <h3>{this.state.title}</h3>
+            </div>
+            {/*页面组件*/}
+            <this.state.componentBase/>
+          </div>
+        </div>
+    )
   }
 }
 
-export default Page;
+export default Page
