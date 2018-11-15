@@ -109,7 +109,7 @@
           padding-bottom: 8px;
           display: flex;
           span {
-            width: 200px;
+            width: 31%;
             font-size: 14px;
             color: rgba(0, 0, 0, 0.5);
             line-height: 22px;
@@ -150,6 +150,41 @@
           border: none;
           color: #fff;
           background-color: #08979C;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .submit-success-wrapper {
+    .submit-main {
+      .submit-main-center {
+        width: 100%;
+        .progress-wrapper {
+          .progress-title {
+            display: block;
+            padding-top: 10px;
+            .span1, .span2, .span3 {
+              width: 100%;
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+      p {
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .submit-success-wrapper {
+    padding: 20px 0;
+    .submit-main {
+      .submit-main-center {
+        .progress-wrapper {
+          padding: 25px 20px 30px 20px;
         }
       }
     }

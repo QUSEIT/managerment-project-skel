@@ -114,3 +114,23 @@
     }
   }
 }
+@media screen and (max-width: 800px) {
+  .submit-error-wrapper {
+    padding: 20px 0;
+    .submit-main {
+      .submit-main-center {
+        width: 100%;
+        .progress-wrapper {
+          padding: 25px 20px 30px 20px;
+        }
+        p {
+          padding: 0 20px;
+          box-sizing: border-box;
+        }
+        .progress-title {
+          display: block;
+        }
+      }
+    }
+  }
+}

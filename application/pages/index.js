@@ -19,9 +19,10 @@ class Page extends React.Component {
     super (props)
     this.state = {
       navList: [],
-      title: '卡片列表',
-      listTitle: '列表页',
-      componentBase: CardList
+      title: '提交成功',
+      listTitle: '结果页',
+      componentBase: SubmitSuccess,
+      miniNavStatus: false // mini导航状态
     }
   }
   // 将要加载页面之前
@@ -127,7 +128,7 @@ class Page extends React.Component {
   componentDidMount () {
   }
   // 展开二级导航
-  onExpandNavFn = (index) => {
+  onExpandNavFn = (event, index) => {
     this.state.navList.forEach((e, i) => {
       if (index === i) {
         e.status = !e.status
@@ -138,9 +139,10 @@ class Page extends React.Component {
     this.setState({
       navList: this.state.navList
     })
+    event.stopPropagation()
   }
   // 跳转页面
-  onSkipPageFn = (evnt, index, idx) => {
+  onSkipPageFn = (event, index, idx) => {
     const _this = this
     this.state.navList.forEach((e, i) => {
       e.childrenList.forEach((o, j) => {
@@ -159,7 +161,7 @@ class Page extends React.Component {
     this.setState({
       navList: this.state.navList
     })
-    evnt.stopPropagation()
+    event.stopPropagation()
   }
 
   render() {
@@ -167,59 +169,70 @@ class Page extends React.Component {
         <div className='home-wrapper'>
           {/*topUserInfo*/}
           <div className='top-user-wrapper'>
+            <div className='mini-nav'>
+              <h1>logo</h1>
+              <span onClick={() => {this.setState({miniNavStatus: true})}}>
+                <img src='../static/img/mini-nav.png'/>
+              </span>
+            </div>
             <div className='top-user'>
-              <h1>头像</h1>
+              <h2>头像</h2>
               <span>用户名</span>
             </div>
             <div className='seek-icon'>
-              <img src="../../../static/img/ic_search.png" />
+              <img src="../static/img/ic_search.png" />
             </div>
           </div>
           {/*leftNav*/}
-          <div className='nav-wrapper'>
-            <div className='nav-avatar'>
-              <h1>logo</h1>
-            </div>
-            <div className='nav-list'>
-              <ul>
-                {
-                  this.state.navList.map((e, index) => {
-                    return (
-                      <li
-                          key={index}
-                          className={e.status ? 'active' : ''}
-                          style={{height: e.status ? e.childrenList.length * 40 + 50 + 'px' : '50px'}}
-                          onClick={() => {
-                            this.onExpandNavFn(index)
-                          }}
-                      >
-                        <div className='first-wrapper'>
-                          <span>{e.title}</span>
-                          <i>
-                            <img src="../../../static/img/ic_down_f.png" />
-                          </i>
-                        </div>
-                        <div className='children-wrapper'>
-                          {
-                            e.childrenList.map((o, idx) => {
-                              return (
-                                <a
-                                    href='javascript:;'
-                                    key={idx}
-                                    className={o.status ? 'active' : ''}
-                                    onClick={(e) => {
-                                      this.onSkipPageFn(e, index, idx)
-                                    }}
-                                >{o.name}</a>
-                              )
-                            })
-                          }
-                        </div>
-                      </li>
-                    )
-                  })
-                }
-              </ul>
+          <div
+              className={this.state.miniNavStatus ? 'nav-wrapper mini-nav-active' : 'nav-wrapper'}
+              onClick={() => {this.setState({miniNavStatus: false})}}
+          >
+            <div className='nav-box'>
+              <div className='nav-avatar'>
+                <h1>logo</h1>
+              </div>
+              <div className='nav-list'>
+                <ul>
+                  {
+                    this.state.navList.map((e, index) => {
+                      return (
+                          <li
+                              key={index}
+                              className={e.status ? 'active' : ''}
+                              style={{height: e.status ? e.childrenList.length * 40 + 50 + 'px' : '50px'}}
+                              onClick={(e) => {
+                                this.onExpandNavFn(e, index)
+                              }}
+                          >
+                            <div className='first-wrapper'>
+                              <span>{e.title}</span>
+                              <i>
+                                <img src="../static/img/ic_down_f.png" />
+                              </i>
+                            </div>
+                            <div className='children-wrapper'>
+                              {
+                                e.childrenList.map((o, idx) => {
+                                  return (
+                                      <a
+                                          href='javascript:;'
+                                          key={idx}
+                                          className={o.status ? 'active' : ''}
+                                          onClick={(e) => {
+                                            this.onSkipPageFn(e, index, idx)
+                                          }}
+                                      >{o.name}</a>
+                                  )
+                                })
+                              }
+                            </div>
+                          </li>
+                      )
+                    })
+                  }
+                </ul>
+              </div>
             </div>
           </div>
           {/*mainWrapper*/}

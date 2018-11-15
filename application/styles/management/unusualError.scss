@@ -36,3 +36,12 @@
     }
   }
 }
+@media screen and (max-width: 800px) {
+  .unusual-error-wrapper {
+    padding-top: 60px;
+    h3 {
+      font-size: 36px;
+      line-height: 50px;
+    }
+  }
+}
