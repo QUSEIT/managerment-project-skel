@@ -54,18 +54,22 @@ class ManagementStandardList extends React.Component {
             <div className='list-wrapper'>
               <ul>
                 <li>
-                  <div className='task-icon'>Task</div>
-                  <div className='task-title'>
-                    <h3>一个任务名称</h3>
-                    <p>一段假想的简介，这是一段比较长的简介。</p>
+                  <div className='task-list'>
+                    <div className='task-icon'>Task</div>
+                    <div className='task-title'>
+                      <h3>一个任务名称</h3>
+                      <p>一段假想的简介，这是一段比较长的简介。</p>
+                    </div>
                   </div>
-                  <div className='task-owner'>
-                    <span className='span'>Owner</span>
-                    <span>曲丽丽</span>
-                  </div>
-                  <div className='task-time'>
-                    <span className='span'>开始时间</span>
-                    <span>2018-11-11 00:00</span>
+                  <div className='task-list task-list-owner'>
+                    <div className='task-owner'>
+                      <span className='span'>Owner</span>
+                      <span>曲丽丽</span>
+                    </div>
+                    <div className='task-time'>
+                      <span className='span'>开始时间</span>
+                      <span>2018-11-11 00:00</span>
+                    </div>
                   </div>
                   <div className='task-progress'>
                     <div className='progress-box'>
@@ -80,18 +84,22 @@ class ManagementStandardList extends React.Component {
                   </div>
                 </li>
                 <li>
-                  <div className='task-icon'>Task</div>
-                  <div className='task-title'>
-                    <h3>一个任务名称</h3>
-                    <p>一段假想的简介，这是一段比较长的简介。</p>
+                  <div className='task-list'>
+                    <div className='task-icon'>Task</div>
+                    <div className='task-title'>
+                      <h3>一个任务名称</h3>
+                      <p>一段假想的简介，这是一段比较长的简介。</p>
+                    </div>
                   </div>
-                  <div className='task-owner'>
-                    <span className='span'>Owner</span>
-                    <span>曲丽丽</span>
-                  </div>
-                  <div className='task-time'>
-                    <span className='span'>开始时间</span>
-                    <span>2018-11-11 00:00</span>
+                  <div className='task-list task-list-owner'>
+                    <div className='task-owner'>
+                      <span className='span'>Owner</span>
+                      <span>曲丽丽</span>
+                    </div>
+                    <div className='task-time'>
+                      <span className='span'>开始时间</span>
+                      <span>2018-11-11 00:00</span>
+                    </div>
                   </div>
                   <div className='task-progress'>
                     <div className='progress-box'>
@@ -106,18 +114,22 @@ class ManagementStandardList extends React.Component {
                   </div>
                 </li>
                 <li>
-                  <div className='task-icon'>Task</div>
-                  <div className='task-title'>
-                    <h3>一个任务名称</h3>
-                    <p>一段假想的简介，这是一段比较长的简介。</p>
+                  <div className='task-list'>
+                    <div className='task-icon'>Task</div>
+                    <div className='task-title'>
+                      <h3>一个任务名称</h3>
+                      <p>一段假想的简介，这是一段比较长的简介。</p>
+                    </div>
                   </div>
-                  <div className='task-owner'>
-                    <span className='span'>Owner</span>
-                    <span>曲丽丽</span>
-                  </div>
-                  <div className='task-time'>
-                    <span className='span'>开始时间</span>
-                    <span>2018-11-11 00:00</span>
+                  <div className='task-list task-list-owner'>
+                    <div className='task-owner'>
+                      <span className='span'>Owner</span>
+                      <span>曲丽丽</span>
+                    </div>
+                    <div className='task-time'>
+                      <span className='span'>开始时间</span>
+                      <span>2018-11-11 00:00</span>
+                    </div>
                   </div>
                   <div className='task-progress'>
                     <div className='progress-box'>
@@ -134,18 +146,22 @@ class ManagementStandardList extends React.Component {
                   </div>
                 </li>
                 <li>
-                  <div className='task-icon'>Task</div>
-                  <div className='task-title'>
-                    <h3>一个任务名称</h3>
-                    <p>一段假想的简介，这是一段比较长的简介。</p>
+                  <div className='task-list'>
+                    <div className='task-icon'>Task</div>
+                    <div className='task-title'>
+                      <h3>一个任务名称</h3>
+                      <p>一段假想的简介，这是一段比较长的简介。</p>
+                    </div>
                   </div>
-                  <div className='task-owner'>
-                    <span className='span'>Owner</span>
-                    <span>曲丽丽</span>
-                  </div>
-                  <div className='task-time'>
-                    <span className='span'>开始时间</span>
-                    <span>2018-11-11 00:00</span>
+                  <div className='task-list task-list-owner'>
+                    <div className='task-owner'>
+                      <span className='span'>Owner</span>
+                      <span>曲丽丽</span>
+                    </div>
+                    <div className='task-time'>
+                      <span className='span'>开始时间</span>
+                      <span>2018-11-11 00:00</span>
+                    </div>
                   </div>
                   <div className='task-progress'>
                     <div className='progress-box'>

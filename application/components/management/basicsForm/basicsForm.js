@@ -45,8 +45,10 @@ class ManagementBasicsForm extends React.Component {
               </li>
               <li>
                 <h4>权重（选填）：</h4>
-                <input className='input-number' type="number" placeholder='0'/>
-                <span>%</span>
+                <div className='input-span'>
+                  <input className='input-number' type="number" placeholder='0'/>
+                  <span>%</span>
+                </div>
               </li>
               <li>
                 <h4>目标公开：</h4>
@@ -77,14 +79,16 @@ class ManagementBasicsForm extends React.Component {
               </li>
               <li>
                 <h4></h4>
-                <span>客户、邀评人默认被分享</span>
+                <div className='input-span'>
+                  <span>客户、邀评人默认被分享</span>
+                </div>
               </li>
-              <div className='submit-btn'>
-                <a href='javascript:;' className='active'>提交</a>
-                <a href='javascript:;'>保存</a>
-                <a href='javascript:;'>删除</a>
-              </div>
             </ul>
+            <div className='submit-btn'>
+              <a href='javascript:;' className='active'>提交</a>
+              <a href='javascript:;'>保存</a>
+              <a href='javascript:;'>删除</a>
+            </div>
           </div>
         </div>
     )

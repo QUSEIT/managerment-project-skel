@@ -41,7 +41,7 @@ class ManagementCardList extends React.Component {
                 <div className='select-text'>
                   <ul>
                     <li>
-                      <span>作者：</span>
+                      <span>作&nbsp;&nbsp;&nbsp;者：</span>
                       <div className='select-input'>
                         <span>不限</span>
                         <i>

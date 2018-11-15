@@ -19,9 +19,9 @@ class Page extends React.Component {
     super (props)
     this.state = {
       navList: [],
-      title: '提交成功',
-      listTitle: '结果页',
-      componentBase: SubmitSuccess,
+      title: '卡片列表',
+      listTitle: '列表页',
+      componentBase: StandardList,
       miniNavStatus: false // mini导航状态
     }
   }
@@ -149,6 +149,7 @@ class Page extends React.Component {
         if (index === i && idx === j) {
           _this.setState({
             componentBase: o.component,
+            miniNavStatus: false,
             listTitle: e.title,
             title: o.name
           })
