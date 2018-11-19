@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from '../../base/button'
+import Input from '../../base/input'
 
 class ManagementStandardTable extends React.Component {
   // 状态机
@@ -21,7 +23,9 @@ class ManagementStandardTable extends React.Component {
             <div className='table-select-wrapper'>
               <div className='table-select'>
                 <span>规则编号：</span>
-                <input type="text" placeholder='请输入'/>
+                <div className='input-box'>
+                  <Input type="text" placeholder='请输入'/>
+                </div>
               </div>
               <div className='table-select'>
                 <span>请&nbsp;&nbsp;选&nbsp;择：</span>
@@ -34,8 +38,12 @@ class ManagementStandardTable extends React.Component {
               </div>
               <div className='select-btn'>
                 <ul>
-                  <li className='active'>查询</li>
-                  <li>重置</li>
+                  <li>
+                    <Button type='primary' name='查询'/>
+                  </li>
+                  <li>
+                    <Button type='minor' name='重置'/>
+                  </li>
                 </ul>
               </div>
             </div>

@@ -1,4 +1,6 @@
 import React from 'react'
+import Input from '../../base/input'
+import Textarea from '../../base/textarea'
 
 class ManagementBasicsForm extends React.Component {
   // 状态机
@@ -21,32 +23,46 @@ class ManagementBasicsForm extends React.Component {
             <ul>
               <li>
                 <h4>标题：</h4>
-                <input type="text" placeholder='给目标起个名字'/>
+                <div className='input-box'>
+                  <Input type='text' placeholder='给目标起个名字'/>
+                </div>
               </li>
               <li>
                 <h4>起止时间：</h4>
-                <input type="text" placeholder='给目标起个名字'/>
+                <div className='input-box'>
+                  <Input type='text' placeholder='开始时间 － 结束时间'/>
+                </div>
               </li>
               <li>
                 <h4>目标描述：</h4>
-                <textarea placeholder='请输入你的阶段性工作目标'/>
+                <div className='textarea-box'>
+                  <Textarea placeholder='请输入你的阶段性工作目标'/>
+                </div>
               </li>
               <li>
                 <h4>衡量标准：</h4>
-                <textarea placeholder='请输入衡量标准'/>
+                <div className='textarea-box'>
+                  <Textarea placeholder='请输入衡量标准'/>
+                </div>
               </li>
               <li>
                 <h4>客户（选填）①：</h4>
-                <input type="text" placeholder='请描述你服务的客户，内部客户直接 @姓名／工号'/>
+                <div className='input-box'>
+                  <Input type="text" placeholder='请描述你服务的客户，内部客户直接 @姓名／工号'/>
+                </div>
               </li>
               <li>
                 <h4>邀评人（选填）：</h4>
-                <input type="text" placeholder='请直接 @姓名／工号，最多可邀请 5 人'/>
+                <div className='input-box'>
+                  <Input type="text" placeholder='请直接 @姓名／工号，最多可邀请 5 人'/>
+                </div>
               </li>
               <li>
                 <h4>权重（选填）：</h4>
                 <div className='input-span'>
-                  <input className='input-number' type="number" placeholder='0'/>
+                  <div className='input-number'>
+                    <Input type="number" placeholder='0'/>
+                  </div>
                   <span>%</span>
                 </div>
               </li>
@@ -75,7 +91,9 @@ class ManagementBasicsForm extends React.Component {
               </li>
               <li>
                 <h4></h4>
-                <input type="text" placeholder='请直接 @姓名／工号'/>
+                <div className='input-box'>
+                  <Input type="text" placeholder='请直接 @姓名／工号'/>
+                </div>
               </li>
               <li>
                 <h4></h4>

@@ -14,5 +14,9 @@
 @import "management/basicsFrame";
 @import "management/unusualError";
 
+@import "base/button";
+@import "base/input";
+@import "base/textarea";
+
 // Import all styles near by the react components.
 @import "../components/**/*.scss";

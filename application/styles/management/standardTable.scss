@@ -25,22 +25,17 @@
           line-height: 32px;
           color: rgba(0, 0, 0, 0.85);
         }
-        input, .table-select-box {
+        .input-box, .table-select-box {
           width: 272px;
           height: 32px;
-          padding: 0 10px;
-          font-size: 14px;
-          border: 1px solid rgba(0, 0, 0, 0.15);
-          border-radius: 2px;
-          background: #FFFFFF;
-          box-sizing: border-box;
-        }
-        input::-webkit-input-placeholder {
-          font-size: 14px;
-          color: rgba(0, 0, 0, 0.25);
         }
         .table-select-box {
           cursor: pointer;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+          border-radius: 2px;
+          padding: 0 10px;
+          background: #FFFFFF;
+          box-sizing: border-box;
           display: flex;
           align-items: center;
           span {
@@ -63,20 +58,7 @@
         ul {
           display: flex;
           li {
-            padding: 0 15px;
             margin-right: 12px;
-            font-size: 14px;
-            border: 1px solid #D9D9D9;
-            line-height: 30px;
-            border-radius: 2px;
-            cursor: pointer;
-            color: rgba(0, 0, 0, 0.65);
-            background-color: #fff;
-          }
-          .active {
-            border: none;
-            color: #FFFFFF;
-            background: #08979C;
           }
         }
       }
