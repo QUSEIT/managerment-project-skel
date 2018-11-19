@@ -13,7 +13,7 @@
     .detail-text {
       width: 100%;
       height: auto;
-      padding: 25px 0 15px 0;
+      padding: 25px 0 10px 0;
       margin-bottom: 5px;
       border-bottom: 1px solid #E8E8E8;
       h4 {
@@ -25,25 +25,17 @@
         width: 100%;
         height: auto;
         padding-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
         li {
-          width: 100%;
+          width: 33%;
           height: auto;
-          padding-bottom: 15px;
-          display: flex;
-          span {
-            font-size: 14px;
-            line-height: 22px;
-            color: rgba(0, 0, 0, 0.85);
-          }
-          .span1 {
-            width: 410px;
-          }
-          .span2 {
-            width: 365px;
-          }
-          .span3 {
-            flex: 1;
-          }
+          padding: 0 10px 15px 0;
+          font-size: 14px;
+          line-height: 22px;
+          overflow: hidden;
+          color: rgba(0, 0, 0, 0.85);
+          box-sizing: border-box;
         }
       }
     }
@@ -79,19 +71,19 @@
             box-sizing: border-box;
           }
           .span1 {
-            width: 165px;
+            width: 100px;
           }
           .span2 {
             flex: 1;
           }
           .span3 {
-            width: 240px;
+            width: 170px;
           }
           .span4 {
             width: 125px;
           }
           .span5 {
-            width: 170px;
+            width: 150px;
           }
           .span6 {
             width: 160px;
@@ -118,13 +110,14 @@
       ul {
         .goods-title, li {
           .span1 {
-            width: 300px;
+            width: 165px;
           }
           .span2 {
-            width: 180px;
+            width: 150px;
+            flex: none;
           }
           .span3 {
-            width: 180px;
+            width: 150px;
           }
           .span4 {
             flex: 1;
@@ -161,6 +154,41 @@
         }
         li:hover {
           background-color: #fff;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1200px) {
+  .basics-detail-wrapper {
+    .detail-main {
+      .goods-wrapper {
+        width: 825px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .basics-detail-wrapper {
+    padding: 20px 0;
+  }
+}
+@media screen and (max-width: 800px) {
+  .basics-detail-wrapper {
+    .detail-main {
+      padding: 0 15px 30px 15px;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .basics-detail-wrapper {
+    .detail-main {
+      .detail-text {
+        ul {
+          display: block;
+          li {
+            width: 100%;
+          }
         }
       }
     }

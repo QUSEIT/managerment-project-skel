@@ -21,31 +21,20 @@ class ManagementBasicsDetail extends React.Component {
             <div className='detail-text'>
               <h4>退款申请</h4>
               <ul>
-                <li>
-                  <span className='span1'>取货单号：1000000000</span>
-                  <span className='span2'>状态：已取货</span>
-                  <span className='span3'>销售单号：123456</span>
-                </li>
-                <li>
-                  <span className='span1'>子订单：98566256</span>
-                  <span className='span2'>状态：发货中</span>
-                  <span className='span3'>销售单号：123456</span>
-                </li>
+                <li>取货单号：1000000000</li>
+                <li>状态：已取货</li>
+                <li>销售单号：123456</li>
+                <li>子&nbsp;&nbsp;订&nbsp;单：98566256</li>
               </ul>
             </div>
             <div className='detail-text'>
               <h4>用户信息</h4>
               <ul>
-                <li>
-                  <span className='span1'>用户姓名：付晓晓</span>
-                  <span className='span2'>联系电话：123645552363</span>
-                  <span className='span3'>常用仓库：：菜鸟仓储</span>
-                </li>
-                <li>
-                  <span className='span1'>取货地址：浙江省杭州市西湖区万塘路18号</span>
-                  <span className='span2'>备注：无</span>
-                  <span className='span3'></span>
-                </li>
+                <li>用户姓名：付晓晓</li>
+                <li>联系电话：15289674970</li>
+                <li>常用仓库：：菜鸟仓储</li>
+                <li>取货地址：浙江省杭州市西湖区万塘路18号</li>
+                <li>备注：无</li>
               </ul>
             </div>
             <div className='goods-wrapper'>

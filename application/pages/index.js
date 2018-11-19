@@ -21,7 +21,7 @@ class Page extends React.Component {
       navList: [],
       title: '卡片列表',
       listTitle: '列表页',
-      componentBase: StandardList,
+      componentBase: CardList,
       miniNavStatus: false // mini导航状态
     }
   }

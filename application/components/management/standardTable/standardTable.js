@@ -24,7 +24,7 @@ class ManagementStandardTable extends React.Component {
                 <input type="text" placeholder='请输入'/>
               </div>
               <div className='table-select'>
-                <span>请选择：</span>
+                <span>请&nbsp;&nbsp;选&nbsp;择：</span>
                 <div className='table-select-box'>
                   <span>请选择</span>
                   <i>
