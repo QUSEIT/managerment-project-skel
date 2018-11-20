@@ -17,6 +17,8 @@
 @import "base/button";
 @import "base/input";
 @import "base/textarea";
+@import "base/select";
+@import "base/radio";
 
 // Import all styles near by the react components.
 @import "../components/**/*.scss";

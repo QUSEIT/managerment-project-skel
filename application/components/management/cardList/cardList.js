@@ -1,19 +1,75 @@
 import React from 'react'
+import Select from '../../base/select'
 
 class ManagementCardList extends React.Component {
   // 状态机
   constructor (props) {
     super (props)
     this.state = {
+      languageList: '',
+      languageName: '',
+      corporationList: '',
+      corporationName: ''
     }
   }
   // 将要加载页面之前
   componentWillMount () {
+    const languageList = [
+      {
+        value: 'java',
+        label: 'java'
+      },
+      {
+        value: 'python',
+        label: 'python'
+      },
+      {
+        value: 'php',
+        label: 'php'
+      },
+      {
+        value: 'javascript',
+        label: 'javascript'
+      },
+      {
+        value: 'html',
+        label: 'html'
+      },
+      {
+        value: 'css',
+        label: 'css'
+      }
+    ]
+    const corporationList = [
+      {
+        value: '阿里巴巴',
+        label: '阿里巴巴'
+      },
+      {
+        value: '腾讯',
+        label: '腾讯'
+      },
+      {
+        value: '百度',
+        label: '百度'
+      },
+      {
+        value: '小米',
+        label: '小米'
+      },
+      {
+        value: '饿了么',
+        label: '饿了么'
+      }
+    ]
+    this.setState({
+      languageList: languageList,
+      corporationList: corporationList
+    })
   }
   // 加载完成页面之后
   componentDidMount () {
   }
-
   render() {
     return (
         <div className='card-list-wrapper'>
@@ -41,21 +97,15 @@ class ManagementCardList extends React.Component {
                 <div className='select-text'>
                   <ul>
                     <li>
-                      <span>作&nbsp;&nbsp;&nbsp;者：</span>
+                      <h6>作&nbsp;&nbsp;&nbsp;者：</h6>
                       <div className='select-input'>
-                        <span>不限</span>
-                        <i>
-                          <img src='../../../static/img/ic_down.png'/>
-                        </i>
+                        <Select list={this.state.languageList} value={this.state.languageName}/>
                       </div>
                     </li>
                     <li>
-                      <span>好评度：</span>
+                      <h6>好评度：</h6>
                       <div className='select-input'>
-                        <span>不限</span>
-                        <i>
-                          <img src='../../../static/img/ic_down.png'/>
-                        </i>
+                        <Select list={this.state.corporationList} value={this.state.corporationName}/>
                       </div>
                     </li>
                   </ul>

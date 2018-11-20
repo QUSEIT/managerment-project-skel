@@ -1,19 +1,42 @@
 import React from 'react'
 import Input from '../../base/input'
 import Textarea from '../../base/textarea'
+import Radio from '../../base/radio'
 
 class ManagementBasicsForm extends React.Component {
   // 状态机
   constructor (props) {
     super (props)
     this.state = {
+      radioList: ''
     }
   }
   // 将要加载页面之前
   componentWillMount () {
+    const radioList = [
+      {
+        title: '公开',
+        name: 'radio1'
+      },
+      {
+        title: '部分公开',
+        name: 'radio1'
+      },
+      {
+        title: '不公开',
+        name: 'radio1'
+      }
+    ]
+    this.setState({
+      radioList: radioList
+    })
   }
   // 加载完成页面之后
   componentDidMount () {
+  }
+  // 接收radio参数
+  onChildRadioDataFn = (data) => {
+    console.log(data)
   }
 
   render() {
@@ -69,24 +92,7 @@ class ManagementBasicsForm extends React.Component {
               <li>
                 <h4>目标公开：</h4>
                 <div className='select-wrapper'>
-                  <div className='select-list'>
-                    <div className='dot active'>
-                      <i></i>
-                    </div>
-                    <p>公开</p>
-                  </div>
-                  <div className='select-list'>
-                    <div className='dot'>
-                      <i></i>
-                    </div>
-                    <p>部分公开</p>
-                  </div>
-                  <div className='select-list'>
-                    <div className='dot'>
-                      <i></i>
-                    </div>
-                    <p>不公开</p>
-                  </div>
+                  <Radio onRadioDataFn={this.onChildRadioDataFn} list={this.state.radioList}/>
                 </div>
               </li>
               <li>
