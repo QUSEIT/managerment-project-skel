@@ -12,6 +12,7 @@ import SubmitSuccess from '../components/management/submitSuccess/submitSuccess'
 import Error403 from '../components/management/error403/error403'
 import Error404 from '../components/management/error404/error404'
 import Error500 from '../components/management/error500/error500'
+import ChangePassword from '../pages/management/setting/changepassword'
 
 class Page extends React.Component {
   // 状态机
@@ -29,18 +30,12 @@ class Page extends React.Component {
   componentWillMount = () => {
     const navList = [
       {
-        title: 'dashboard',
+        title: '帖子管理',
         status: false,
-        childrenList: [
-          {
-            name: '分析页',
-            status: false,
-            component: AnalysePage
-          }
-        ]
+        childrenList: []
       },
       {
-        title: '列表页',
+        title: '关联标签',
         status: false,
         childrenList: [
           {
@@ -61,7 +56,7 @@ class Page extends React.Component {
         ]
       },
       {
-        title: '表单页',
+        title: '用户管理',
         status: false,
         childrenList: [
           {
@@ -72,7 +67,7 @@ class Page extends React.Component {
         ]
       },
       {
-        title: '详情页',
+        title: '关注配置',
         status: false,
         childrenList: [
           {
@@ -83,34 +78,34 @@ class Page extends React.Component {
         ]
       },
       {
-        title: '结果页',
+        title: '机器人配置',
         status: false,
         childrenList: [
           {
-            name: '提交失败',
+            name: '创建机器人',
             status: false,
             component: SubmitError
           },
           {
-            name: '提交成功',
+            name: '机器人管理',
             status: false,
             component: SubmitSuccess
           }
         ]
       },
       {
-        title: '异常页',
+        title: '设置',
         status: false,
         childrenList: [
           {
-            name: '403',
+            name: '后台用户管理',
             status: false,
             component: Error403
           },
           {
-            name: '404',
+            name: '修改密码',
             status: false,
-            component: Error404
+            component: ChangePassword
           },
           {
             name: '500',
@@ -207,10 +202,16 @@ class Page extends React.Component {
                               }}
                           >
                             <div className='first-wrapper'>
-                              <span>{e.title}</span>
-                              <i>
-                                <img src="../static/img/ic_down_f.png" />
-                              </i>
+                              <span>{e.title}</span> 
+                              {
+                                e.childrenList.length !== 0
+                                ? 
+                                <i>
+                                  <img src="../static/img/ic_down_f.png" />
+                                </i>
+                                :
+                                null
+                              }
                             </div>
                             <div className='children-wrapper'>
                               {

@@ -19,12 +19,12 @@ const HtmlHead = () => {
   return (
     <Head>
       <title>
-SystemSeed Technical Assessment
+        小欣管理后台
       </title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <link rel="shortcut icon" href="/static/favicon.ico" type="image/vnd.microsoft.icon" />
+      <link rel="shortcut icon" href="/static/logo.ico" type="image/vnd.microsoft.icon" />
       {stylesheets}
     </Head>
   );

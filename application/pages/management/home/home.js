@@ -52,7 +52,7 @@ class ManagementIndex extends React.Component {
                   </i>
                 </li>
                 <li>
-                  <span>表单也</span>
+                  <span>表单页</span>
                   <i>
                     <img src="../../../static/img/ic_down_f.png" />
                   </i>
