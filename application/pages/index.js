@@ -1,11 +1,17 @@
 import React from 'react'
 import Router from 'next/router'
+import {postRequest, ERR_OK} from '../utils/apiRequest'
+import { log } from 'util';
 
 class ManagementLogin extends React.Component {
   // 状态机
   constructor(props) {
     super(props)
     this.state = {
+      params : {},
+      result:{},
+      accountValue:'',
+      pwdValue:''
     }
   }
   // 将要加载页面之前
@@ -14,9 +20,38 @@ class ManagementLogin extends React.Component {
   // 加载完成页面之后
   componentDidMount() {
   }
+
+  // 监听获取账号输入值
+  handleAccountInputValue = (event) => {
+    this.setState({
+      accountValue : event.target.value
+    })
+  }
+
+  handlePasswordInputValue = (event) => {
+    this.setState({
+      pwdValue : event.target.value
+    })
+  }
+
   // 跳转home页面
   onSkipHomeFn = () => {
     // Router.push('/management/home/home')
+    const params = {
+      account : this.state.accountValue,
+      password : this.state.pwdValue
+    }
+
+    postRequest('manager/login', params).then((res) => {
+      if (res.errno === ERR_OK) {
+        console.log('====================================');
+        console.log(res.data);
+        console.log('====================================');
+      } else {
+        console.log('报错')
+      }
+    })
+    
   }
 
   render() {
@@ -39,10 +74,10 @@ class ManagementLogin extends React.Component {
           <div className='input-wrapper'>
             <ul className='common-login'>
               <li>
-                <input type="text" placeholder='账号' />
+                <input type="text" placeholder='账号' onChange={this.handleAccountInputValue}/>
               </li>
               <li>
-                <input type="text" placeholder='密码' />
+                <input type="password" placeholder='密码' onChange={this.handlePasswordInputValue}/>
               </li>
             </ul>
           </div>
