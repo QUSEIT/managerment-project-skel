@@ -11,6 +11,8 @@ import Error403 from '../../../components/management/error403/error403'
 import Error404 from '../../../components/management/error404/error404'
 import Error500 from '../../../components/management/error500/error500'
 import ChangePassword from '../../../pages/management/setting/changepassword'
+import PostManager from '../../../pages/management/Post/postManager'
+import AddPost from '../../../pages/management/Post/addPost'
 
 class Page extends React.Component {
   // 状态机
@@ -20,7 +22,7 @@ class Page extends React.Component {
       navList: [],
       title: '卡片列表',
       listTitle: '列表页',
-      componentBase: BasicsForm,
+      componentBase: AddPost,
       miniNavStatus: false // mini导航状态
     }
   }
@@ -132,6 +134,14 @@ class Page extends React.Component {
     this.setState({
       navList: this.state.navList
     })
+    const that = this
+    // 帖子管理
+    if (index === 0) {
+      that.setState({
+        componentBase : PostManager
+      })
+    }
+
     event.stopPropagation()
   }
   // 跳转页面

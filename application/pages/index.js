@@ -36,21 +36,19 @@ class ManagementLogin extends React.Component {
 
   // 跳转home页面
   onSkipHomeFn = () => {
-    // Router.push('/management/home/home')
+    Router.push('/management/home/home')
     const params = {
       account : this.state.accountValue,
       password : this.state.pwdValue
     }
 
-    postRequest('manager/login', params).then((res) => {
-      if (res.errno === ERR_OK) {
-        console.log('====================================');
-        console.log(res.data);
-        console.log('====================================');
-      } else {
-        console.log('报错')
-      }
-    })
+    // postRequest('manager/login', params).then((res) => {
+    //   if (res.errno === ERR_OK) {
+
+    //   } else {
+    //     console.log('报错')
+    //   }
+    // })
     
   }
 

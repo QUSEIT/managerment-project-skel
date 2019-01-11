@@ -1,0 +1,109 @@
+.postManagerment-wrapper {
+    width: 100%;
+    height: auto;
+    padding: 25px 30px;
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+    .list-wrapper {
+        width: 100%;
+        height: auto;
+        padding: 0px 30px;
+        background-color: #ffffff;
+        box-sizing: border-box;
+        .top-wrapper {
+            width: 100%;
+            height: auto;
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            border-bottom: 1px solid #E8E8E8;
+            .review-wrapper {
+                width: 30%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .button {
+                height: 30px;
+            }
+        }
+        .classify-wrapper {
+            width: 100%;
+            height: auto;
+            padding: 15px 0;
+            display: flex;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            Button {
+                margin-right: 15px;
+            }
+        }
+        .list-main {
+            width: 100%;
+            height: auto;
+            padding: 15px 0;
+            box-sizing: border-box;
+            .list-title {
+                width: 100%;
+                height: 54px;
+                padding: 0 35px 0 25px;
+                border-bottom: 1px solid #E8E8E8;
+                border-radius: 4px 4px 0px 0px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #fafafa;
+                box-sizing: border-box;
+                h4 {
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+            .list-content {
+                width: 100%;
+                height: auto;
+                
+                ul {
+                    li {
+                        width: 100%;
+                        height: 54px;
+                        display: flex;
+                        justify-content: space-between;
+                        span { 
+                            line-height: 54px;
+                            font-family: PingFangSC-Medium;
+                            font-size: 14px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            text-align: center;
+                            -webkit-line-clamp: 1;
+                        }
+                        .span1 {
+                            width: 100px;
+                        }
+                        .span2 {
+                            width: 100px;
+                        }
+                        .span3 {
+                            width: 100px;
+                        }
+                        .span4 {
+                            width: 100px;
+                        }
+                        .span5 {
+                            width: 100px;
+                        }
+                        .span6 {
+                            width: 100px;
+                        }
+                        .span7 {
+                            width: 100px;
+                        }
+                    }
+                }
+            }
+        }    
+    }
+}
