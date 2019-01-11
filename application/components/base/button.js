@@ -14,10 +14,12 @@ class Button extends React.Component {
   componentDidMount () {
   }
 
+
+
   render() {
     return (
         <div className='button-wrapper'>
-          <button className={this.props.type}>{this.props.name}</button>
+          <button className={this.props.type} onClick={this.props.clickEvent}>{this.props.name}</button>
         </div>
     )
   }
