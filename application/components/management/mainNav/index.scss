@@ -1,0 +1,39 @@
+.main-nav-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  padding: 60px 15px 0 270px;
+  background-color: #fff;
+  box-sizing: border-box;
+  .main-nav-list {
+    width: 100%;
+    height: auto;
+    padding-top: 15px;
+    display: flex;
+    a, span {
+      font-size: 14px;
+      line-height: 25px;
+      color: rgba(0,0,0,0.5);
+    }
+    .active {
+      color: rgba(0,0,0,0.7);
+    }
+    span {
+      padding: 0 6px;
+    }
+  }
+  h3 {
+    line-height: 60px;
+    font-family: 'PingFangSC-Medium';
+    font-size: 20px;
+    color: rgba(0,0,0,0.85);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .main-nav-wrapper {
+    padding: 60px 15px 0 15px;
+  }
+}

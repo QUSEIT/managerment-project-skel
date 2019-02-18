@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react';
-import App, { Container } from 'next/app';
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
-import withReduxSaga from 'next-redux-saga';
-import HtmlHead from '../components/HtmlHead';
-import configureStore from '../store/store';
-import '../components/PageProgressBar'; // Beautiful page transition indicator.
+import React, { Fragment } from 'react'
+import App, { Container } from 'next/app'
+import { Provider } from 'react-redux'
+import withRedux from 'next-redux-wrapper'
+import withReduxSaga from 'next-redux-saga'
+import HtmlHead from '../components/HtmlHead'
+import configureStore from '../store/store'
+import '../components/PageProgressBar' // Beautiful page transition indicator.
+import LeftNav from '../components/management/leftNav'
 
 class Application extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -26,22 +27,23 @@ class Application extends App {
       };
     }
 
-    return initialProps;
+    return initialProps
   }
 
   render() {
-    const { Component, store, ...pageProps } = this.props;
+    const { Component, store, ...pageProps } = this.props
     return (
       <Container>
         <Provider store={store}>
           <Fragment>
             <HtmlHead />
             <Component {...pageProps} />
+            <LeftNav />
           </Fragment>
         </Provider>
       </Container>
-    );
+    )
   }
 }
 
-export default withRedux(configureStore)(withReduxSaga(Application));
+export default withRedux(configureStore)(withReduxSaga(Application))

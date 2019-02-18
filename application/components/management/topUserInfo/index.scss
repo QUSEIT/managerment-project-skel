@@ -1,0 +1,92 @@
+.top-user-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  padding: 0 30px;
+  z-index: 10;
+  box-shadow: 0 1px 4px 0 rgba(0,21,41,0.12);
+  background: #FFFFFF;
+  box-sizing: border-box;
+  .mini-nav {
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: center;
+    h1 {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-family: PingFangSC-Regular;
+      font-size: 11px;
+      text-align: center;
+      line-height: 44px;
+      overflow: hidden;
+      color: #ECEFF1;
+      background-color: #9E9E9E;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    span {
+      width: 20px;
+      height: 20px;
+      margin-left: 20px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .top-user {
+    height: 100%;
+    float: right;
+    display: flex;
+    align-items: center;
+    h2 {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 12px;
+      text-align: center;
+      line-height: 32px;
+      overflow: hidden;
+      color: #ECEFF1;
+      background-color: #9E9E9E;
+    }
+    span {
+      height: 100%;
+      padding-left: 15px;
+      line-height: 60px;
+      font-size: 14px;
+      color: #4A4A4A;
+    }
+  }
+  .seek-icon {
+    float: right;
+    width: 60px;
+    height: 100%;
+    margin-right: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 21px;
+      height: 21px;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .top-user-wrapper {
+    padding: 0 15px;
+    .top-user {
+      span {
+        display: none;
+      }
+    }
+  }
+}

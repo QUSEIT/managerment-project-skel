@@ -1,0 +1,17 @@
+.user-management-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  padding: 190px 30px 30px 270px;
+  z-index: 10;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 800px) {
+  .user-management-wrapper {
+    padding: 175px 0 0 0;
+  }
+}

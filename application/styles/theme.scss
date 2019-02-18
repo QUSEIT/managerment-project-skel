@@ -2,6 +2,15 @@
 @import "base";
 @import "management/login";
 @import "management/app";
+@import "management/topicManagement";
+@import "management/associationLabel";
+@import "management/userManagerment";
+@import "management/attentionConfiguration";
+@import "management/backstageUserManagerment";
+@import "management/setting";
+@import "management/moreOperating";
+@import "management/robotManagement";
+@import "management/createRobot";
 @import "management/home";
 @import "management/analysePage";
 @import "management/cardList";
@@ -13,11 +22,6 @@
 @import "management/basicsDetail";
 @import "management/basicsFrame";
 @import "management/unusualError";
-
-// xiaoxin
-@import "management/postManagerment";
-@import "management/changePassword";
-@import "management/addPost";
 
 @import "base/button";
 @import "base/input";

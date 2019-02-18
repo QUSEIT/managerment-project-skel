@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 // Put all your reducers here.
-import example from './example';
+import common from './common'
 
 export default combineReducers({
-  example,
-});
+  common
+})
