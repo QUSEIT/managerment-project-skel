@@ -75,10 +75,7 @@ class LeftNav extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
-      navList: [],
-      title: '卡片列表',
-      listTitle: '列表页',
-      miniNavStatus: false // mini导航状态
+      navList: []
     }
   }
 
@@ -88,18 +85,19 @@ class LeftNav extends React.Component {
 
   // 加载完成页面之后
   componentDidMount () {
+    const { setActiveNavObjFn } = this.props
     let str = window.location.href
     str = str.split('/')[str.split('/').length - 1]
     navList.forEach((e) => {
       if (e.childrenList.length) {
         e.childrenList.forEach((o) => {
           if (o.path === management + '/' + str) {
-            console.log(o.title)
+            setActiveNavObjFn({ oneTitle: e.title, twoTitle: o.title})
           }
         })
       } else {
         if (e.path === management + '/' + str) {
-          console.log(e.title)
+          setActiveNavObjFn({ oneTitle: e.title, twoTitle: ''})
         }
       }
     })
@@ -108,43 +106,41 @@ class LeftNav extends React.Component {
     })
   }
 
-  // 展开二级导航
-  onExpandNavFn = (event, index) => {
+  // 展开二级导航 || 跳转页面
+  onSkipPageFn = (event, index, idx, oneTitle, twoTitle) => {
     const { navList } = this.state
+    const { onLeftNavMaskFn, setActiveNavObjFn } = this.props
     navList.forEach((e, i) => {
-      if (index === i) {
-        if (e.childrenList.length) {
-          e.status = !e.status
+      if (index === i && e.childrenList.length) {
+        if (idx || idx === 0) {
+          e.childrenList.forEach((o, j) => {
+            if (idx === j) {
+              Router.push(o.path)
+              onLeftNavMaskFn(false)
+              setActiveNavObjFn({ oneTitle: oneTitle, twoTitle: twoTitle})
+            } else {
+              navList.forEach((item1, ii) => {
+                item1.childrenList.forEach((item2, jj) => {
+                  if (index === ii && idx === jj) {
+                    item2.status = true
+                  } else {
+                    item2.status = false
+                  }
+                })
+              })
+            }
+          })
         } else {
-          Router.push(e.path)
+          e.status = !e.status
         }
       } else {
         e.status = false
-      }
-    })
-    this.setState({
-      navList: navList
-    })
-    event.stopPropagation()
-  }
-
-  // 跳转页面
-  onSkipPageFn = (event, index, idx) => {
-    const { navList } = this.state
-    navList.forEach((e, i) => {
-      e.childrenList.forEach((o, j) => {
-        if (index === i && idx === j) {
-          this.setState({
-            miniNavStatus: false,
-            listTitle: e.title,
-            title: o.title
-          })
-          o.status = true
-          Router.push(o.path)
-        } else {
-          o.status = false
+        if (index === i) {
+          Router.push(e.path)
+          onLeftNavMaskFn(false)
+          setActiveNavObjFn({ oneTitle: oneTitle, twoTitle: twoTitle})
         }
-      })
+      }
     })
     this.setState({
       navList: navList
@@ -173,8 +169,8 @@ class LeftNav extends React.Component {
                       key={index}
                       className={e.status ? 'active' : ''}
                       style={{height: e.status ? e.childrenList.length * 40 + 50 + 'px' : '50px'}}
-                      onClick={(e) => {
-                        this.onExpandNavFn(e, index)
+                      onClick={(event) => {
+                        this.onSkipPageFn(event, index, null, e.title, '')
                       }}
                     >
                       <div className='first-wrapper'>
@@ -197,8 +193,8 @@ class LeftNav extends React.Component {
                                 href='javascript:;'
                                 key={idx}
                                 className={o.status ? 'active' : ''}
-                                onClick={(e) => {
-                                  this.onSkipPageFn(e, index, idx)
+                                onClick={(event) => {
+                                  this.onSkipPageFn(event, index, idx, e.title, o.title)
                                 }}
                               >{o.title}</a>
                             )
@@ -229,6 +225,12 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: 'LEFT_NAV_STATUS',
         leftNavStatus
+      })
+    },
+    setActiveNavObjFn: (activeNavObj) => {
+      dispatch({
+        type: 'ACTIVE_NAV_OBJ',
+        activeNavObj
       })
     }
   }

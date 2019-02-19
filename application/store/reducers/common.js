@@ -1,6 +1,7 @@
 export default (
   state = {
-    leftNavStatus: false
+    leftNavStatus: false,
+    activeNavObj: {}
   }, action,
 ) => {
   switch (action.type) {
@@ -8,6 +9,11 @@ export default (
       return {
         ...state,
         leftNavStatus: action.leftNavStatus
+      }
+    case 'ACTIVE_NAV_OBJ':
+      return {
+        ...state,
+        activeNavObj: action.activeNavObj
       }
     default:
       return state
