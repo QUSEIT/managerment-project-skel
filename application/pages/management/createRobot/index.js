@@ -25,7 +25,25 @@ class CreateRobot extends React.Component {
         <TopUserInfo />
         {/*MainNav*/}
         <MainNav />
-        创建机器人
+        <div className="robot-page">
+          <div className="publicBtn">生成二维码</div>
+          <div className="topic-wrappers">
+            <div className="topic-top">
+              <ul>
+                <li className="li">机器人昵称</li>
+                <li>状态</li>
+              </ul>
+            </div>
+            <div className="topic-main">
+              <ul>
+                <li className="li">小莫</li>
+                <li>
+                  <a href="javascript:;">Running</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

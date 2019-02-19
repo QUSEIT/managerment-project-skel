@@ -25,7 +25,28 @@ class BackstageUserManagement extends React.Component {
         <TopUserInfo />
         {/*MainNav*/}
         <MainNav />
-        后台用户管理
+        <div className="backstage-user-management-content">
+          <div className="add-type-wrapper">
+            <div className="add-type">添加管理员</div>
+          </div>
+          <div className="user-wrapper">
+            <div className="user-top">
+              <ul>
+                <li className="li">用户名</li>
+                <li>操作</li>
+              </ul>
+            </div>
+            <div className="user-main">
+              <ul>
+                <li className="li">小莫</li>
+                <li>
+                  <a href="javascript:;">编辑</a>
+                  <a className="a" href="javascript:;">删除</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

@@ -25,7 +25,22 @@ class MoreOperating extends React.Component {
         <TopUserInfo />
         {/*MainNav*/}
         <MainNav />
-        更多操作
+        <div className="more-operating-content">
+          <div className="topic-nav">
+            <div className="title-edit">
+              <p>论坛title：</p>
+              <p>QPYIO</p>
+            </div>
+            <a>编辑</a>
+          </div>
+          <div className="topic-nav">
+            <p>非登录状态api不可调用</p>
+          </div>
+          <div className="topic-nav">
+            <p>如若出现 KeyError at /account/h5/login'expires_at' 错误的话请点击右方按钮重置</p>
+            <div className="reset-btn">重置</div>
+          </div>
+        </div>
       </div>
     )
   }

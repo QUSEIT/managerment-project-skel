@@ -25,7 +25,29 @@ class AssociationLabel extends React.Component {
         <TopUserInfo />
         {/*MainNav*/}
         <MainNav />
-        关联标签
+        <div className="association-label-main">
+          <div className="add-type-wrapper">
+            <div className="add-type">添加标签</div>
+          </div>
+          {/*添加贴子分类*/}
+          <div className="label-wrapper">
+            <div className="topic-top">
+              <ul>
+                <li className="li">名字</li>
+                <li>操作</li>
+              </ul>
+            </div>
+            <div className="topic-main">
+              <ul>
+              <li className="li"># 好多标签</li>
+              <li>
+                <a href="javascript:;">编辑</a>
+                <a className="a" href="javascript:;">删除</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
