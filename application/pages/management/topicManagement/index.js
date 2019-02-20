@@ -1,6 +1,8 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import {connect} from "react-redux";
+import topicManagement from "../../../store/reducers/topicManagement";
 
 class TopicManagement extends React.Component {
   // 状态机
@@ -16,9 +18,18 @@ class TopicManagement extends React.Component {
 
   // 加载完成页面之后
   componentDidMount() {
+    const { getTopicList } = this.props
+    const oJson = {
+      selectTopicIdx: '',
+      topicNavIdx: 1,
+      pageLength: 1
+    }
+    getTopicList(oJson)
   }
 
   render() {
+    const { topicList } = this.props
+
     return (
       <div className='topic-management-wrapper'>
         {/*TopUserInfo*/}
@@ -55,19 +66,35 @@ class TopicManagement extends React.Component {
               </ul>
             </div>
             <div className="topic-main">
-              <ul>
-                <li>未知</li>
-                <li>
-                  <img src=''/>
-                </li>
-                <li>无</li>
-                <li>0</li>
-                <li>0</li>
-                <li>0</li>
-                <li>
-                  <a href="javascript:;">删除</a>
-                </li>
-              </ul>
+              {
+                topicList.length
+                  ?
+                  topicList.map((item, i) => {
+                    return (
+                      <ul key={i}>
+                        <li>{item.user.nickname}</li>
+                        <li>
+                          {
+                            item.images.length
+                              ?
+                              <img src={item.images[0].picUrl}/>
+                              :
+                              null
+                          }
+                        </li>
+                        <li>{item.content}</li>
+                        <li>{item.thumb_count}</li>
+                        <li>{item.star_count}</li>
+                        <li>{item.create_time}</li>
+                        <li>
+                          <a href="javascript:;">删除</a>
+                        </li>
+                      </ul>
+                    )
+                  })
+                  :
+                  null
+              }
             </div>
           </div>
         </div>
@@ -76,4 +103,22 @@ class TopicManagement extends React.Component {
   }
 }
 
-export default TopicManagement
+const mapStateToProps = state => ({
+  topicList: state.topicManagement.topicList
+})
+
+const mapDispatchToProps = dispatch => ({
+  getTopicList: data => {
+    dispatch({
+      type: 'GET_TOPIC_LIST',
+      data
+    })
+  }
+})
+
+const TopicManagementProps = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopicManagement)
+
+export default TopicManagementProps

@@ -1,13 +1,13 @@
 import React from 'react'
-import Router from 'next/router'
+import {connect} from "react-redux";
 
 class Login extends React.Component {
   // 状态机
   constructor(props) {
     super(props)
     this.state = {
-      accountValue:'',
-      pwdValue:''
+      userName:'',
+      password:''
     }
   }
 
@@ -19,22 +19,12 @@ class Login extends React.Component {
   componentDidMount() {
   }
 
-  // 监听获取账号输入值
-  handleAccountInputValue = (event) => {
-    this.setState({
-      accountValue : event.target.value
-    })
-  }
-
-  handlePasswordInputValue = (event) => {
-    this.setState({
-      pwdValue : event.target.value
-    })
-  }
-
   // 跳转home页面
-  onSkipHomeFn = () => {
-    Router.push('/management/Setting')
+  onLogInSubmitFn = () => {
+    const { userName, password } = this.state
+    const { login } = this.props
+    const data = { userName, password }
+    login(data)
   }
 
   render() {
@@ -52,18 +42,47 @@ class Login extends React.Component {
           <div className='input-wrapper'>
             <ul className='common-login'>
               <li>
-                <input type="text" placeholder='账号' onChange={this.handleAccountInputValue}/>
+                <input
+                  type="text"
+                  placeholder='账号'
+                  onChange={(e) => {
+                    this.setState({ userName : e.target.value })
+                  }}
+                />
               </li>
               <li>
-                <input type="password" placeholder='密码' onChange={this.handlePasswordInputValue}/>
+                <input
+                  type="password"
+                  placeholder='密码'
+                  onChange={(e) => {
+                    this.setState({ password : e.target.value })
+                  }}
+                />
               </li>
             </ul>
           </div>
-          <div className='submit-btn' onClick={this.onSkipHomeFn}>登录</div>
+          <div className='submit-btn' onClick={this.onLogInSubmitFn}>登录</div>
         </div>
       </div>
     )
   }
 }
 
-export default Login
+const mapStateToProps = state => ({
+})
+
+const mapDispatchToProps = dispatch => ({
+  login: data => {
+    dispatch({
+      type: 'LOGIN',
+      data,
+    })
+  }
+})
+
+const LoginProps = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login)
+
+export default LoginProps

@@ -31,7 +31,7 @@ class MoreOperating extends React.Component {
               <p>论坛title：</p>
               <p>QPYIO</p>
             </div>
-            <a>编辑</a>
+            <a href="javascript:;">编辑</a>
           </div>
           <div className="topic-nav">
             <p>非登录状态api不可调用</p>

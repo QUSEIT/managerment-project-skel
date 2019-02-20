@@ -158,7 +158,7 @@ class LeftNav extends React.Component {
       >
         <div className='left-nav-wrapper'>
           <div className='nav-avatar'>
-            <h1>logo</h1>
+            <img src="/static/img/nav-log.png"/>
           </div>
           <div className='nav-list'>
             <ul>
