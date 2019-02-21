@@ -1,14 +1,31 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import {connect} from "react-redux";
-import topicManagement from "../../../store/reducers/topicManagement";
+import {connect} from "react-redux"
+import Router from "next/router"
+
+const topicStatusList = [
+  {
+    name: '未审核',
+    id: 0
+  },
+  {
+    name: '审核通过',
+    id: 1
+  },
+  {
+    name: '审核不通过',
+    id: 2
+  }
+]
 
 class TopicManagement extends React.Component {
   // 状态机
   constructor(props) {
     super(props)
     this.state = {
+      topicStatusId: 0,
+      topicTypeId: ''
     }
   }
 
@@ -18,17 +35,51 @@ class TopicManagement extends React.Component {
 
   // 加载完成页面之后
   componentDidMount() {
+    const { topicStatusId, topicTypeId } = this.state
+    const { getTopicTypeList } = this.props
+    this._getTopicListFn(topicStatusId, topicTypeId)
+    getTopicTypeList()
+  }
+
+  // 选择帖子状态
+  onTopicStatusFn = (id) => {
+    this.setState({
+      topicStatusId: id
+    }, function () {
+      const { topicStatusId, topicTypeId } = this.state
+      this._getTopicListFn(topicStatusId, topicTypeId)
+    })
+  }
+
+  // 选择帖子类型
+  onTopicTypeFn = (id) => {
+    this.setState({
+      topicTypeId: id
+    }, function () {
+      const { topicStatusId, topicTypeId } = this.state
+      this._getTopicListFn(topicStatusId, topicTypeId)
+    })
+  }
+
+  // 获取帖子列表
+  _getTopicListFn = (topicStatusId, topicTypeId) => {
     const { getTopicList } = this.props
     const oJson = {
-      selectTopicIdx: '',
-      topicNavIdx: 1,
+      topicStatusId: topicStatusId,
+      topicTypeId: topicTypeId,
       pageLength: 1
     }
     getTopicList(oJson)
   }
 
+  // 跳转TopicPublic页面
+  onSkipTopicPublicFn = () => {
+    Router.push('/management/topicPublic')
+  }
+
   render() {
-    const { topicList } = this.props
+    const { topicStatusId, topicTypeId } = this.state
+    const { topicList, topicTypeList } = this.props
 
     return (
       <div className='topic-management-wrapper'>
@@ -39,17 +90,42 @@ class TopicManagement extends React.Component {
         <div className="topic-main">
           <div className="topic-nav">
             <ul>
-              <li className="active">未审核</li>
-              <li>审核通过</li>
-              <li>审核不通过</li>
+              {
+                topicStatusList.map((item, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={topicStatusId === item.id ? 'active' : ''}
+                      onClick={() => this.onTopicStatusFn(item.id)}
+                    >{ item.name }</li>
+                  )
+                })
+              }
             </ul>
-            <div className="add-type">添加帖子</div>
+            <div className="add-type" onClick={() => this.onSkipTopicPublicFn()}>添加帖子</div>
           </div>
           {/*帖子分类*/}
           <div className="topic-select">
             <ul>
-              <li className="active">全部</li>
-              <li>纯文字</li>
+              <li
+                className={topicTypeId === '' ? 'active' : ''}
+                onClick={() => this.onTopicTypeFn('')}
+              >全部</li>
+              {
+                topicTypeList.length
+                 ?
+                  topicTypeList.map((item, i) => {
+                    return (
+                      <li
+                        key={i}
+                        className={topicTypeId === item.id ? 'active' : ''}
+                        onClick={() => this.onTopicTypeFn(item.id)}
+                      >{ item.name }</li>
+                    )
+                  })
+                  :
+                  null
+              }
             </ul>
           </div>
           {/*帖子列表*/}
@@ -104,14 +180,20 @@ class TopicManagement extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  topicList: state.topicManagement.topicList
+  topicList: state.topicManagement.topicList,
+  topicTypeList: state.topicManagement.topicTypeList
 })
 
 const mapDispatchToProps = dispatch => ({
-  getTopicList: data => {
+  getTopicList: (data) => {
     dispatch({
       type: 'GET_TOPIC_LIST',
       data
+    })
+  },
+  getTopicTypeList: () => {
+    dispatch({
+      type: 'GET_TOPIC_TYPE_LIST'
     })
   }
 })

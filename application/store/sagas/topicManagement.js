@@ -1,4 +1,4 @@
-import { getTopicList } from "../../api/topicManagement"
+import { getTopicList, getTopicTypeList, getUserList } from "../../api/topicManagement"
 import { ERR_OK } from "../../api/config"
 import {
   all,
@@ -13,8 +13,24 @@ function* getTopicListFn(payload) {
   }
 }
 
+function* getTopicTypeListFn() {
+  const response = yield getTopicTypeList()
+  if (response.errno === ERR_OK) {
+    yield put({ type: 'TOPIC_TYPE_LIST', topicTypeList: response.data })
+  }
+}
+
+function* getTopicPublicUserFn(payload) {
+  const response = yield getUserList(payload.data)
+  if (response.errno === ERR_OK) {
+    yield put({ type: 'TOPIC_PUBLIC_USER', topicUser: response })
+  }
+}
+
 export default function* commonSagas() {
   yield all([
     yield takeEvery('GET_TOPIC_LIST', getTopicListFn),
+    yield takeEvery('GET_TOPIC_TYPE_LIST', getTopicTypeListFn),
+    yield takeEvery('GET_TOPIC_PUBLIC_USER', getTopicPublicUserFn)
   ])
 }
