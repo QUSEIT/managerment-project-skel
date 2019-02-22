@@ -73,8 +73,8 @@ class TopicManagement extends React.Component {
   }
 
   // 跳转TopicPublic页面
-  onSkipTopicPublicFn = () => {
-    Router.push('/management/topicPublic')
+  onSkipTopicPublicFn = (topicId) => {
+    Router.push('/management/topicPublic?topicId=' + topicId)
   }
 
   render() {
@@ -102,7 +102,7 @@ class TopicManagement extends React.Component {
                 })
               }
             </ul>
-            <div className="add-type" onClick={() => this.onSkipTopicPublicFn()}>添加帖子</div>
+            <div className="add-type" onClick={() => this.onSkipTopicPublicFn('')}>添加帖子</div>
           </div>
           {/*帖子分类*/}
           <div className="topic-select">
@@ -147,7 +147,7 @@ class TopicManagement extends React.Component {
                   ?
                   topicList.map((item, i) => {
                     return (
-                      <ul key={i}>
+                      <ul key={i} onClick={() => this.onSkipTopicPublicFn(item.topic_id)}>
                         <li>{item.user.nickname}</li>
                         <li>
                           {

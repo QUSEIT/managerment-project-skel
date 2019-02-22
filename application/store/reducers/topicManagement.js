@@ -2,6 +2,7 @@ export default (
   state = {
     topicList: [],
     topicTypeList: [],
+    topicDetail: '',
     topicUser: {}
   }, action,
 ) => {
@@ -15,6 +16,11 @@ export default (
       return {
         ...state,
         topicTypeList: action.topicTypeList
+      }
+    case 'TOPIC_DETAIL':
+      return {
+        ...state,
+        topicDetail: action.topicDetail
       }
     case 'TOPIC_PUBLIC_USER':
       return {

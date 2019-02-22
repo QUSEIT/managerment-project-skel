@@ -1,7 +1,8 @@
 export default (
   state = {
     leftNavStatus: false,
-    activeNavObj: {}
+    activeNavObj: {},
+    uploadToke: ''
   }, action,
 ) => {
   switch (action.type) {
@@ -14,6 +15,11 @@ export default (
       return {
         ...state,
         activeNavObj: action.activeNavObj
+      }
+    case 'SET_UP_TOKEN':
+      return {
+        ...state,
+        uploadToke: action.uploadToke
       }
     default:
       return state

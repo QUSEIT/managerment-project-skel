@@ -13,10 +13,11 @@
     width: 100%;
     height: auto;
     .topic-select-wrapper {
-      width: 100%;
+      width: 850px;
       height: auto;
+      margin: 0 auto;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       .form {
         position: relative;
         width: 375px;
@@ -93,16 +94,14 @@
           }
         }
       }
-      .form-right {
-        margin-left: 100px;
-      }
     }
   }
   .topic-img-wrapper {
-    width: 100%;
+    width: 850px;
     height: auto;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     .form {
       position: relative;
       width: 375px;
@@ -258,15 +257,13 @@
         }
       }
     }
-    .form-right {
-      margin-left: 100px;
-    }
   }
   .topic-title-content-wrapper {
-    width: 100%;
+    width: 850px;
     height: auto;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     .form {
       position: relative;
       width: 375px;
@@ -312,15 +309,13 @@
         }
       }
     }
-    .form-right {
-      margin-left: 100px;
-    }
   }
   .topic-label-wrapper {
-    width: 100%;
+    width: 850px;
     height: auto;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     .pay-form-warp {
       width: 375px;
       padding: 15px 0;
@@ -421,10 +416,26 @@
           }
         }
       }
-
-    }
-    .form-right {
-      margin-left: 100px;
+      .selected-label {
+        width: 100%;
+        height: auto;
+        ul {
+          width: 100%;
+          height: auto;
+          display: flex;
+          li {
+            width: auto;
+            height: auto;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #515a6e;
+            background-color: #fff;
+          }
+        }
+      }
     }
   }
   .release-wrapper {

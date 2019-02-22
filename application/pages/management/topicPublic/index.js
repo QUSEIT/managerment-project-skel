@@ -2,6 +2,7 @@ import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import { connect } from "react-redux"
+import { uploadQiniuFn, bktClouddnUrl } from "../../../api/upTokenApi"
 
 const topicTypeList = [
   {
@@ -31,16 +32,32 @@ class TopicPublic extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      topicId: '', // 帖子ID
       selectUserStatus: false, // 显示/隐藏选择用户状态
       userVal: '', // 用户名字
       userUid: '', // 用户id
       userPage: 1, // 获取用户页数
-      topicType: 1, // 帖子类型
-      selectTopicTypeStatus: false, // 显示/隐藏选择帖子类型状态
+      topicType: '', // 选择帖子类型
       topicTypeVal: '', // 帖子类别名字
+      selectTopicTypeStatus: false, // 显示/隐藏选择帖子类型状态
       localCoverUrl: '', // 本地封面图URL
       localCoverObj: {},
-      localContentUrls: [], // 内容图
+      localContentUrls: [], // 本地内容图片URL
+      fileLists: [],
+      httpImgLists: [], // 网络内容图片URL
+      titleVal: '', // 标题
+      contentVal: '', // 内容
+      PCUrl: '', // pc下的pdf链接
+      H5Url: '', // H5下的pdf链接
+      gistUrl: '', // gist地址
+      single: false, // pdf是否连载/推送至公众号
+      isPay: false, // 是否付费
+      payVal: 0, // 付费金额
+      editMoney: 0,
+      newLabels: [],
+      optionList: [],
+      option_list: [],
+      labelValue: [], // 已选中的关联标签
     }
   }
 
@@ -51,9 +68,48 @@ class TopicPublic extends React.Component {
   // 加载完成页面之后
   componentDidMount() {
     const { userPage } = this.state
-    const { getUserList, getLabel } = this.props
+    const { getUserList, getLabel, getUptoken, router } = this.props
     getUserList(userPage)
     getLabel()
+    getUptoken()
+    this.getTopicDetailFn(router.query.topicId)
+    this.setState({
+      topicId: router.query.topicId
+    })
+  }
+
+  // 获取帖子详情
+  getTopicDetailFn = (topicId) => {
+    const { getTopicDetail } = this.props
+    let topicType = ''
+    if (topicId) getTopicDetail(topicId, (res) => {
+      console.log(res)
+      if (res.type === '纯文字') {
+        topicType = '0'
+      }
+      if (res.type === '图文') {
+        topicType = '1'
+      }
+      if (res.type === 'PDF') {
+        topicType = '2'
+      }
+      if (res.type === '投票') {
+        topicType = '3'
+      }
+      if (res.type === 'gist') {
+        topicType = '4'
+      }
+      this.setState({
+        userVal: res.user.nickname,
+        topicType: topicType,
+        topicTypeVal: res.type,
+        localCoverUrl: res.cover,
+        localContentUrls: res.imgList,
+        titleVal: res.title,
+        contentVal: res.content,
+        option_list: res.option_list
+      })
+    })
   }
 
   // 选择用户
@@ -121,15 +177,16 @@ class TopicPublic extends React.Component {
   onUploadImgFn = (e) => {
     if (e) {
       let newContentImgArr = this.state.localContentUrls
+      let newFileLists = this.state.fileLists
       const filesList = e.target.files
       for (let i = 0; i < filesList.length; i++) {
         if (this.state.localContentUrls.length < 9) {
           newContentImgArr.push({picUrl: window.URL.createObjectURL(filesList[i])}) // 本地图片路径
+          newFileLists.push(filesList[i]) // 要传到七牛云的图片文件
           this.setState({
-            localContentUrls: newContentImgArr
+            localContentUrls: newContentImgArr,
+            fileLists: newFileLists
           })
-          // this.localContentUrls.push({picUrl: window.URL.createObjectURL(filesList[i])}) // 本地图片路径
-          // this.fileLists.push(filesList[i]) // 要传到七牛云的图片文件
         } else {
           alert('最多只能上传9张喔～')
           return false
@@ -140,10 +197,13 @@ class TopicPublic extends React.Component {
 
   // 移除内容图片
   onRemoveContentImgFn = (index) => {
-    const { localContentUrls } = this.state
-    // if (localContentUrls[index].picUrl.substr(0, 4) !== 'http') {
-    //   this.fileLists.splice(index, 1)
-    // }
+    const { localContentUrls, fileLists } = this.state
+    if (localContentUrls[index].picUrl.substr(0, 4) !== 'http') {
+      fileLists.splice(index, 1)
+      this.setState({
+        fileLists: fileLists
+      })
+    }
     localContentUrls.splice(index, 1)
     this.setState({
       localContentUrls: localContentUrls
@@ -162,17 +222,219 @@ class TopicPublic extends React.Component {
     modifyLabelList(labelList)
   }
 
+  // 发布帖子
+  onPublishFn = () => {
+    const { topicId, userVal, topicType, localCoverUrl, localContentUrls, titleVal, contentVal } = this.state
+    const { labelList } = this.props
+    if (!userVal) {
+      alert('请选择用户')
+      return false
+    }
+    if (!topicType) {
+      alert('请选择帖子类型')
+      return false
+    }
+    if (topicType === '1' || topicType === '2' || topicType === '4') {
+      if (!localCoverUrl) {
+        alert('封面不能为空!')
+        return false
+      }
+    }
+    if (topicType === '1' || topicType === '3' || topicType === '4') {
+      if (!localContentUrls.length) {
+        alert('内容图不能为空!')
+        return false
+      }
+    }
+    if (!titleVal) {
+      alert('标题不能为空!')
+      return false
+    }
+    if (!contentVal) {
+      alert('帖子信息内容不能为空!')
+      return false
+    }
+    const infoLabelList = labelList
+    if (!topicId && infoLabelList.length) {
+      for (let i = 0; i < infoLabelList.length; i++) {
+        if (infoLabelList[i].mark) {
+          this.setState({ labelValue: [] }, function () {
+            this.labelSelectedFn(infoLabelList)
+          })
+          return true
+        } else {
+          if (i + 1 === labelList.length) {
+            alert('请选择关联标签!')
+            return false
+          }
+        }
+      }
+    } else {
+      const { topicDetail } = this.props
+      this.setState({
+        newLabels: topicDetail.labelList
+      }, function () {
+        this.labelSelectedFn()
+      })
+    }
+  }
+
+  // push被选中的关联标签
+  labelSelectedFn = (lists) => {
+    let newLabelValue = this.state.labelValue
+    if (lists) {
+      lists.forEach((item) => {
+        if (item.mark) {
+          newLabelValue.push(item.label_title)
+          this.setState({
+            labelValue: newLabelValue
+          })
+        }
+      })
+    }
+    // 检查封面图路径
+    const { localCoverUrl, localCoverObj } = this.state
+    const { uploadToke } = this.props
+    if (localCoverUrl.substr(0, 4) !== 'http' && localCoverUrl !== '') {
+      const params = new FormData()
+      params.append('file', localCoverObj, localCoverObj.name)
+      params.append('token', uploadToke)
+      uploadQiniuFn(params).then((res) => {
+        const imgUrl = bktClouddnUrl + res.data.hash
+        this.setState({
+          localCoverUrl: imgUrl
+        })
+        this.checkUploadListFn()
+      })
+    } else {
+      this.checkUploadListFn()
+    }
+  }
+
+  // 检查 uploadList
+  checkUploadListFn = () => {
+    const { topicId, localContentUrls, httpImgLists, fileLists } = this.state
+    let newHttpImgLists = httpImgLists
+    if (topicId) {
+      for (let j = 0; j < localContentUrls.length; j++) {
+        if (localContentUrls[j].picUrl.substr(0, 4) === 'http') {
+          newHttpImgLists.push(localContentUrls[j].picUrl)
+          this.setState({
+            httpImgLists: newHttpImgLists
+          })
+        }
+      }
+      if (!fileLists.length) {
+        this.toPublishFn()
+        return false
+      }
+    }
+    this.getUploadQiniuImgFn(fileLists, 0)
+  }
+
+  // 将本地内容图片转成网络图片
+  getUploadQiniuImgFn = (list, i) => {
+    const { httpImgLists } = this.state
+    const { uploadToke } = this.props
+    let newHttpImgLists = httpImgLists
+    if (list.length) {
+      const param = new FormData() // new一个对象
+      param.append('file', list[i], list[i].name)
+      param.append('token', uploadToke)
+      uploadQiniuFn(param).then(res => {
+        const imgUrl = bktClouddnUrl + res.data.hash
+        newHttpImgLists.push(imgUrl)
+        this.setState({
+          httpImgLists: newHttpImgLists
+        })
+        if (i + 1 < list.length) {
+          i = i + 1
+          this.getUploadQiniuImgFn(list, i)
+        } else {
+          this.toPublishFn()
+        }
+      })
+    } else {
+      this.toPublishFn()
+    }
+  }
+
+  toPublishFn () {
+    const {
+      topicId,
+      userUid,
+      topicType,
+      titleVal,
+      contentVal,
+      localCoverUrl,
+      httpImgLists,
+      PCUrl,
+      H5Url,
+      gistUrl,
+      single,
+      isPay,
+      payVal,
+      editMoney,
+      newLabels,
+      optionList,
+      option_list,
+      labelValue
+    } = this.state
+    const { onPublishTopicFn, editTopicDetailFn } = this.props
+
+    if (!topicId) {
+      if (topicType === '2' || topicType === '3') {
+        this.setState({
+          isPay: false
+        })
+      }
+      const postData = {
+        unionid: userUid,
+        type: topicType,
+        title: titleVal,
+        content: contentVal,
+        first_img: localCoverUrl,
+        images: httpImgLists,
+        pdfs: [{ url: PCUrl, type: 'pc' }, { url: H5Url, type: 'wechat' }],
+        gist_url: gistUrl,
+        mark: single,
+        tags: labelValue,
+        pay: isPay,
+        money: isPay ? payVal : 0,
+        optionList: topicType === '3' ? optionList : []
+      }
+      onPublishTopicFn(postData)
+    } else {
+      const postData = {
+        topic_id: topicId,
+        title: titleVal,
+        content: contentVal,
+        cover: localCoverUrl,
+        images: httpImgLists,
+        pdfs: [{ url: PCUrl, type: 'pc' }, { url: H5Url, type: 'wechat' }],
+        gist_url: gistUrl,
+        money: editMoney,
+        tags: newLabels,
+        option_list: option_list
+      }
+      editTopicDetailFn(postData)
+    }
+  }
+
   render() {
     const {
+      topicId,
       selectUserStatus,
       userVal,
       selectTopicTypeStatus,
       topicTypeVal,
       topicType,
       localCoverUrl,
-      localContentUrls
+      localContentUrls,
+      titleVal,
+      contentVal
     } = this.state
-    const { topicUser, labelList } = this.props
+    const { topicDetail, topicUser, labelList } = this.props
 
     return (
       <div className='topic-public-wrapper'>
@@ -186,7 +448,7 @@ class TopicPublic extends React.Component {
               <h3>选择用户：</h3>
               <div
                 className="select-bar"
-                onClick={() => this.setState({ selectUserStatus: !selectUserStatus })}
+                onClick={() => !topicId ? this.setState({ selectUserStatus: !selectUserStatus }) : null}
               >{userVal ? userVal : '请选择'}</div>
               {
                 selectUserStatus
@@ -222,11 +484,11 @@ class TopicPublic extends React.Component {
                   null
               }
             </div>
-            <div className="form form-right">
+            <div className="form">
               <h3>选择帖子类型：</h3>
               <div
                 className="select-bar"
-                onClick={() => this.setState({ selectTopicTypeStatus: !selectTopicTypeStatus })}
+                onClick={() => !topicId ? this.setState({ selectTopicTypeStatus: !selectTopicTypeStatus }) : null}
               >{topicTypeVal ? topicTypeVal : '请选择'}</div>
               {
                 selectTopicTypeStatus
@@ -253,13 +515,13 @@ class TopicPublic extends React.Component {
           <div className="topic-img-wrapper">
             {
               topicType !== '0' && topicType !== '3'
-              ?
+                ?
                 <div className="form">
                   <h3>选择封面：</h3>
                   <div className="cover-wrapper">
                     {
                       localCoverUrl
-                        ?
+                      ?
                         <div className="show-cover-img">
                           <div className="mask-box">
                             <i onClick={() => this.onRemoveCoverImgFn()}>
@@ -281,93 +543,145 @@ class TopicPublic extends React.Component {
                 :
                 null
             }
-            <div className="form form-right">
-              <h3>选择内容图：</h3>
-              <div className="content-wrapper">
-                <ul>
-                  {
-                    localContentUrls.length
-                      ?
-                      localContentUrls.map((item, i) => {
-                        return (
-                          <li key={i}>
-                            <div className="mask-box">
-                              <i onClick={() => this.onRemoveContentImgFn(i)}>
-                                <img src="/static/img/remove-icon.png"/>
-                              </i>
-                            </div>
-                            <img className="content-img" src={item.picUrl}/>
-                          </li>
-                        )
-                      })
-                      :
-                      null
-                  }
-                  {
-                    localContentUrls.length < 9
-                      ?
-                      <div className="upload-li">
-                        <i>
-                          <img src="/static/img/camera-icon.png" />
-                        </i>
-                        <input type="file" accept="image/*" name="file" multiple onChange={(e) => this.onUploadImgFn(e)}/>
-                      </div>
-                      :
-                      null
-                  }
-                </ul>
-              </div>
-            </div>
+            {
+              topicType !== '0' && topicType !== '2'
+                ?
+                <div className="form">
+                  <h3>选择内容图：</h3>
+                  <div className="content-wrapper">
+                    <ul>
+                      {
+                        localContentUrls.length
+                          ?
+                          localContentUrls.map((item, i) => {
+                            return (
+                              <li key={i}>
+                                <div className="mask-box">
+                                  <i onClick={() => this.onRemoveContentImgFn(i)}>
+                                    <img src="/static/img/remove-icon.png"/>
+                                  </i>
+                                </div>
+                                <img className="content-img" src={item.picUrl}/>
+                              </li>
+                            )
+                          })
+                          :
+                          null
+                      }
+                      {
+                        localContentUrls.length < 9
+                          ?
+                          <div className="upload-li">
+                            <i>
+                              <img src="/static/img/camera-icon.png" />
+                            </i>
+                            <input type="file" accept="image/*" name="file" multiple onChange={(e) => this.onUploadImgFn(e)}/>
+                          </div>
+                          :
+                          null
+                      }
+                    </ul>
+                  </div>
+                </div>
+                :
+                null
+            }
           </div>
           <div className="topic-title-content-wrapper">
             <div className="form">
               <h3>输入标题：</h3>
               <div className="input-box">
-                <input type="text" placeholder='Enter something...'/>
+                <input
+                  type="text"
+                  value={titleVal}
+                  placeholder='Enter something...'
+                  onChange={(e) => {
+                    this.setState({ titleVal : e.target.value })
+                  }}
+                />
               </div>
             </div>
-            <div className="form form-right">
+            <div className="form">
               <h3>输入内容：</h3>
               <div className="textarea-box">
-                <textarea placeholder="Enter something..."></textarea>
+                <textarea
+                  value={contentVal}
+                  placeholder="Enter something..."
+                  onChange={(e) => {
+                    this.setState({ contentVal : e.target.value })
+                  }}
+                ></textarea>
               </div>
             </div>
           </div>
           <div className="topic-label-wrapper">
-            <div className="pay-form-warp">
-              <div className="pay-form">
-                <h3>是否需要付费：</h3>
-                <label className="switch">
-                  <input type="checkbox" />
-                    <div className="slider round"></div>
-                </label>
-              </div>
-            </div>
-            <div className="form form-right">
-              <h3>推荐标签：</h3>
-              <div className="topic-type-select">
-                <ul>
-                  {
-                    labelList.length
-                     ?
-                      labelList.map((item, i) => {
-                        return (
-                          <li
-                            key={i}
-                            className={item.mark ? 'active' : ''}
-                            onClick={() => this.onSelectLabelFn(item.label_id)}
-                          ># {item.label_title}</li>
-                        )
-                      })
-                      :
-                      null
-                  }
-                </ul>
-              </div>
-            </div>
+            {
+              !topicId
+              ?
+                <div className="pay-form-warp">
+                  <div className="pay-form">
+                    <h3>是否需要付费：</h3>
+                    <label className="switch">
+                      <input type="checkbox" />
+                      <div className="slider round"></div>
+                    </label>
+                  </div>
+                </div>
+                :
+                null
+            }
+            {
+              !topicId
+              ?
+                <div className="form">
+                  <h3>推荐标签：</h3>
+                  <div className="topic-type-select">
+                    <ul>
+                      {
+                        labelList.length
+                          ?
+                          labelList.map((item, i) => {
+                            return (
+                              <li
+                                key={i}
+                                className={item.mark ? 'active' : ''}
+                                onClick={() => this.onSelectLabelFn(item.label_id)}
+                              ># {item.label_title}</li>
+                            )
+                          })
+                          :
+                          <li>-暂无数据-</li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+                :
+                <div className="form">
+                  <h3>推荐标签：</h3>
+                  <div className="selected-label">
+                    <ul>
+                      {
+                        topicDetail
+                        ?
+                          topicDetail.labelList.length
+                          ?
+                            topicDetail.labelList.map((item, i) => {
+                              return (
+                                <li key={i}># {item}</li>
+                              )
+                            })
+                            :
+                            null
+                          :
+                          null
+                      }
+                    </ul>
+                  </div>
+                </div>
+            }
           </div>
           <div className="release-wrapper">
-            <div className="release-btn">发布</div>
+            <div className="release-btn" onClick={() => this.onPublishFn()}>发布</div>
           </div>
         </div>
       </div>
@@ -376,11 +690,20 @@ class TopicPublic extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  topicDetail: state.topicManagement.topicDetail,
   topicUser: state.topicManagement.topicUser,
-  labelList: state.associationLabel.labelList
+  labelList: state.associationLabel.labelList,
+  uploadToke: state.common.uploadToke
 })
 
 const mapDispatchToProps = dispatch => ({
+  getTopicDetail: (topicId, callBack) => {
+    dispatch({
+      type: 'GET_TOPIC_DETAIL',
+      topicId,
+      callBack
+    })
+  },
   getUserList: (data) => {
     dispatch({
       type: 'GET_TOPIC_PUBLIC_USER',
@@ -397,7 +720,24 @@ const mapDispatchToProps = dispatch => ({
       type: 'ASSOCIATION_LABEL_LIST',
       labelList
     })
-  }
+  },
+  getUptoken: data => {
+    dispatch({
+      type: 'GET_UP_TOKEN'
+    })
+  },
+  onPublishTopicFn: data => {
+    dispatch({
+      type: 'SET_PUBLISH_TOPIC',
+      data
+    })
+  },
+  editTopicDetailFn: data => {
+    dispatch({
+      type: 'EDIT_TOPIC_DETAIL',
+      data
+    })
+  },
 })
 
 const TopicPublicProps = connect(

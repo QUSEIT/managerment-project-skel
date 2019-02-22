@@ -14,9 +14,36 @@ export const getTopicTypeList = () => {
   })
 }
 
+export const getTopicDatail = (topicId) => {
+  return axios.request({
+    url: '/manager/topic/management/?topic_id=' + topicId,
+    method: 'GET'
+  })
+}
+
 export const getUserList = (page) => {
   return axios.request({
     url: '/manager/user/list?page=' + page,
     method: 'GET'
+  })
+}
+
+export const publishTopic = (postData) => {
+  const data = postData
+
+  return axios.request({
+    url: '/manager/topic/create',
+    data,
+    method: 'POST'
+  })
+}
+
+export const editTopicDetail = (postData) => {
+  const data = postData
+
+  return axios.request({
+    url: '/manager/topic/edit',
+    data,
+    method: 'POST'
   })
 }
