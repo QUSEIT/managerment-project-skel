@@ -2,7 +2,8 @@ export default (
   state = {
     leftNavStatus: false,
     activeNavObj: {},
-    uploadToke: ''
+    uploadToke: '',
+    dialogBoxStatus: false
   }, action,
 ) => {
   switch (action.type) {
@@ -20,6 +21,11 @@ export default (
       return {
         ...state,
         uploadToke: action.uploadToke
+      }
+    case 'DIALOG_BOX_STATUS':
+      return {
+        ...state,
+        dialogBoxStatus: action.dialogBoxStatus
       }
     default:
       return state

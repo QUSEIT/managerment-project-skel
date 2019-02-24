@@ -1,6 +1,7 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import DialogBox from '../../../components/management/dialogBox'
 import { connect } from "react-redux"
 import { uploadQiniuFn, bktClouddnUrl } from "../../../api/upTokenApi"
 
@@ -54,10 +55,15 @@ class TopicPublic extends React.Component {
       isPay: false, // 是否付费
       payVal: 0, // 付费金额
       editMoney: 0,
+      optionLists: [{val: ''}, {val: ''}], // 投票选项
       newLabels: [],
       optionList: [],
       option_list: [],
       labelValue: [], // 已选中的关联标签
+      dialogObj: {
+        title: '帖子审核',
+        content: '确认通过该帖子?'
+      }
     }
   }
 
@@ -107,6 +113,10 @@ class TopicPublic extends React.Component {
         localContentUrls: res.imgList,
         titleVal: res.title,
         contentVal: res.content,
+        option_list: res.option_list,
+        PCUrl: res.pdfList.length ? res.pdfList[0].pdfUrl: '',
+        H5Url: res.pdfList.length ? res.pdfList[1].pdfUrl: '',
+        gistUrl: res.gist,
         option_list: res.option_list
       })
     })
@@ -210,6 +220,69 @@ class TopicPublic extends React.Component {
     })
   }
 
+  // 上传PC-pdf
+  uploadPCPdf = (e) => {
+    const { uploadToke } = this.props
+    let pdfList = e.target.files
+    const objs = new FormData()
+    objs.append('file', pdfList[0], pdfList[0].name)
+    objs.append('token', uploadToke)
+    uploadQiniuFn(objs).then(res => {
+      const pdfUrl = bktClouddnUrl + res.data.hash
+      this.setState({ PCUrl: pdfUrl })
+    })
+  }
+
+  // 上传H5-pdf
+  uploadH5Pdf = (e) => {
+    const { uploadToke } = this.props
+    let pdfList = e.target.files
+    const objs = new FormData()
+    objs.append('file', pdfList[0], pdfList[0].name)
+    objs.append('token', uploadToke)
+    uploadQiniuFn(objs).then(res => {
+      const pdfUrl = bktClouddnUrl + res.data.hash
+      this.setState({
+        H5Url: pdfUrl
+      })
+    })
+  }
+
+  // 填写输入投票信息
+  onChangeOptionFn = (e, index) => {
+    const { optionLists } = this.state
+    optionLists.map((item, i) => {
+      if (index === i) {
+        item.val = e.target.value
+      }
+    })
+    this.setState({
+      optionLists: optionLists
+    })
+  }
+
+  // 添加投票选项
+  onAddOptionsFn = () => {
+    let newOptionLists = this.state.optionLists
+    newOptionLists.push({val: ''})
+    this.setState({
+      optionLists: newOptionLists
+    })
+  }
+
+  // 移除投票选项
+  onDelOptionsFn = (index) => {
+    let newOptionLists = this.state.optionLists
+    if (newOptionLists.length > 1) {
+      newOptionLists.splice(index, 1)
+      this.setState({
+        optionLists: newOptionLists
+      })
+    } else {
+      alert('移除失败!')
+    }
+  }
+
   // 操作关联标签
   onSelectLabelFn = (labelId) => {
     const { labelList, modifyLabelList } = this.props
@@ -224,7 +297,20 @@ class TopicPublic extends React.Component {
 
   // 发布帖子
   onPublishFn = () => {
-    const { topicId, userVal, topicType, localCoverUrl, localContentUrls, titleVal, contentVal } = this.state
+    const {
+      topicId,
+      userVal,
+      topicType,
+      localCoverUrl,
+      localContentUrls,
+      titleVal,
+      contentVal,
+      optionLists,
+      optionList,
+      gistUrl,
+      PCUrl,
+      H5Url
+    } = this.state
     const { labelList } = this.props
     if (!userVal) {
       alert('请选择用户')
@@ -254,6 +340,37 @@ class TopicPublic extends React.Component {
       alert('帖子信息内容不能为空!')
       return false
     }
+    if (topicType === '4' && !gistUrl) {
+      alert('gist地址不能为空!')
+      return false
+    }
+    if (topicType === '2') {
+      if (!PCUrl || !H5Url) {
+        alert('pdf链接不能为空!')
+        return false
+      }
+    }
+
+    this.setState({ optionList: [] })
+    for (let i = 0; i < optionLists.length; i++) {
+      let newOptionList = optionList
+      if (optionLists[i].val) {
+        if (optionList.indexOf(optionLists[i].val) === -1) {
+          newOptionList.push(optionLists[i].val)
+          this.setState({
+            optionList: newOptionList
+          })
+        } else {
+          alert('选项不能相同!')
+          return false
+        }
+      }
+    }
+    if (!topicId && topicType === '3' && !optionList.length) {
+      alert('请填写投票选项!')
+      return false
+    }
+
     const infoLabelList = labelList
     if (!topicId && infoLabelList.length) {
       for (let i = 0; i < infoLabelList.length; i++) {
@@ -421,6 +538,18 @@ class TopicPublic extends React.Component {
     }
   }
 
+  // 对话弹框取消
+  onCancelFn = () => {
+    const { setDialogBoxStatusFn } = this.props
+    setDialogBoxStatusFn(false)
+  }
+
+  // 对话弹框确认
+  onOkFn = () => {
+    const { setDialogBoxStatusFn } = this.props
+    setDialogBoxStatusFn(false)
+  }
+
   render() {
     const {
       topicId,
@@ -432,9 +561,15 @@ class TopicPublic extends React.Component {
       localCoverUrl,
       localContentUrls,
       titleVal,
-      contentVal
+      contentVal,
+      optionLists,
+      PCUrl,
+      H5Url,
+      gistUrl,
+      option_list,
+      dialogObj
     } = this.state
-    const { topicDetail, topicUser, labelList } = this.props
+    const { topicDetail, topicUser, labelList, setDialogBoxStatusFn } = this.props
 
     return (
       <div className='topic-public-wrapper'>
@@ -614,9 +749,137 @@ class TopicPublic extends React.Component {
               </div>
             </div>
           </div>
+          {
+            topicType === '2'
+            ?
+              <div className="pdf-wrapper">
+                <div className="form">
+                  <div className="pdf-form">
+                    <h3>（PC）</h3>
+                    <h3>输入pdf地址</h3>
+                    <h3>or</h3>
+                    <div className="select-pdf-btn">选择pdf文件
+                      <input
+                        type="file"
+                        accept="application/pdf"
+                        name="file"
+                        onChange={(e) => this.uploadPCPdf(e)}
+                      />
+                    </div>
+                  </div>
+                  <input
+                    className="pdf-form-input"
+                    type="text"
+                    value={PCUrl}
+                    onChange={(e) => this.setState({ PCUrl: e.target.value })}
+                  />
+                </div>
+                <div className="form">
+                  <div className="pdf-form">
+                    <h3>（H5）</h3>
+                    <h3>输入pdf地址</h3>
+                    <h3>or</h3>
+                    <div className="select-pdf-btn">选择pdf文件
+                      <input
+                        type="file"
+                        accept="application/pdf"
+                        name="file"
+                        onChange={(e) => this.uploadH5Pdf(e)}
+                      />
+                    </div>
+                  </div>
+                <input
+                  className="pdf-form-input"
+                  type="text"
+                  value={H5Url}
+                  onChange={(e) => this.setState({ H5Url: e.target.value })}
+                />
+                </div>
+              </div>
+              :
+              null
+          }
+          {
+            topicType === '4'
+              ?
+              <div className="pdf-wrapper">
+                <div className="form">
+                  <div className="pdf-form">
+                    <h3>输入gist地址：</h3>
+                  </div>
+                  <input
+                    className="pdf-form-input"
+                    type="text"
+                    value={gistUrl}
+                    onChange={(e) => this.setState({ gistUrl: e.target.value })}
+                  />
+                </div>
+              </div>
+              :
+              null
+          }
           <div className="topic-label-wrapper">
             {
-              !topicId
+              !topicId && topicType === '3'
+                ?
+                <div className="vote-form-warp">
+                  <h3>输入投票选项：</h3>
+                  <div className="option-warpper">
+                    {
+                      optionLists.map((item, i) => {
+                        return (
+                          <div className="add-options" key={i}>
+                            <img
+                              src="http://chaomuqiniu.wegox.net/delete.png"
+                              onClick={() => this.onDelOptionsFn(i)}
+                            />
+                            <input
+                              value={item.val}
+                              className="optionInput"
+                              placeholder="选项"
+                              onChange={(e) => this.onChangeOptionFn(e, i)}
+                            />
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                  <div className="add-btn">
+                    <img
+                      src="http://chaomuqiniu.wegox.net/add.png"
+                      onClick={() => this.onAddOptionsFn()}
+                    />
+                    <h4>添加选项</h4>
+                  </div>
+                </div>
+                :
+                topicId && topicType === '3'
+                ?
+                  <div className="vote-form-warp">
+                    <h3>投票选择：</h3>
+                    <div className="option-warpper">
+                      {
+                        option_list.length
+                        ?
+                          <ul>
+                            {
+                              option_list.map((item, i) => {
+                                return (
+                                  <li key={i}>{item.name}</li>
+                                )
+                              })
+                            }
+                          </ul>
+                          :
+                          null
+                      }
+                    </div>
+                  </div>
+                  :
+                  null
+            }
+            {
+              !topicId && topicType !== '2' && topicType !== '3'
               ?
                 <div className="pay-form-warp">
                   <div className="pay-form">
@@ -683,7 +946,45 @@ class TopicPublic extends React.Component {
           <div className="release-wrapper">
             <div className="release-btn" onClick={() => this.onPublishFn()}>发布</div>
           </div>
+          {
+            topicId
+            ?
+              <div className="pass-btn-wrapper">
+                <h3>帖子审核：</h3>
+                <div
+                  className="pass-btn"
+                  onClick={() => {
+                    this.setState({
+                      dialogObj: {
+                        title: '帖子审核',
+                        content: '确认通过该帖子?'
+                      }
+                    }),
+                    setDialogBoxStatusFn(true)
+                  }}
+                >通过</div>
+                <div
+                  className="pass-btn red"
+                  onClick={() => {
+                    this.setState({
+                      dialogObj: {
+                        title: '帖子审核',
+                        content: '确认审核该帖子?'
+                      }
+                    }),
+                    setDialogBoxStatusFn(true)
+                  }}
+                >不通过</div>
+              </div>
+              :
+              null
+          }
         </div>
+        <DialogBox
+          dialogObj={dialogObj}
+          onOk={() => this.onOkFn()}
+          onCancel={() => this.onCancelFn()}
+        />
       </div>
     )
   }
@@ -738,6 +1039,12 @@ const mapDispatchToProps = dispatch => ({
       data
     })
   },
+  setDialogBoxStatusFn: dialogBoxStatus => {
+    dispatch({
+      type: 'DIALOG_BOX_STATUS',
+      dialogBoxStatus
+    })
+  }
 })
 
 const TopicPublicProps = connect(

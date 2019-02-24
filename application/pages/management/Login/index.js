@@ -30,40 +30,40 @@ class Login extends React.Component {
   render() {
     return (
       <div className='login-wrapper'>
-        <div className='login-center'>
-          <div className='logo'>
-            <h1>logo</h1>
-          </div>
-          <div className='switch-login'>
-            <ul>
-              <li>账号密码登录</li>
-            </ul>
-          </div>
-          <div className='input-wrapper'>
-            <ul className='common-login'>
-              <li>
-                <input
-                  type="text"
-                  placeholder='账号'
-                  onChange={(e) => {
-                    this.setState({ userName : e.target.value })
-                  }}
-                />
-              </li>
-              <li>
-                <input
-                  type="password"
-                  placeholder='密码'
-                  onChange={(e) => {
-                    this.setState({ password : e.target.value })
-                  }}
-                />
-              </li>
-            </ul>
-          </div>
-          <div className='submit-btn' onClick={this.onLogInSubmitFn}>登录</div>
-        </div>
+      <div className='login-center'>
+      <div className='logo'>
+      <h1>logo</h1>
       </div>
+      <div className='switch-login'>
+      <ul>
+      <li>账号密码登录</li>
+      </ul>
+      </div>
+      <div className='input-wrapper'>
+      <ul className='common-login'>
+      <li>
+      <input
+    type="text"
+    placeholder='账号'
+    onChange={(e) => {
+      this.setState({ userName : e.target.value })
+    }}
+    />
+    </li>
+    <li>
+    <input
+    type="password"
+    placeholder='密码'
+    onChange={(e) => {
+      this.setState({ password : e.target.value })
+    }}
+    />
+    </li>
+    </ul>
+    </div>
+    <div className='submit-btn' onClick={this.onLogInSubmitFn}>登录</div>
+    </div>
+    </div>
     )
   }
 }
