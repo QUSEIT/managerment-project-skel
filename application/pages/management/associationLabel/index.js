@@ -1,14 +1,23 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import {connect} from "react-redux";
-import associationLabel from "../../../store/reducers/associationLabel";
+import DialogBox from '../../../components/management/dialogBox'
+import { connect } from "react-redux"
 
 class AssociationLabel extends React.Component {
   // 状态机
   constructor(props) {
     super(props)
     this.state = {
+      labelObj: {
+        labelId: '',
+        title: '',
+        status: 0
+      },
+      dialogObj: {
+        title: '',
+        content: ''
+      }
     }
   }
 
@@ -23,7 +32,44 @@ class AssociationLabel extends React.Component {
     getAssociationLabel()
   }
 
+  // 删除标签
+  onDelLabelFn = (labelId, title, status) => {
+    const { setDialogBoxStatusFn } = this.props
+    this.setState({
+      labelObj: {
+        labelId: labelId,
+        title: title,
+        status: status
+      },
+      dialogObj: {
+        title: '是否移除该标签!',
+        content: '注意一旦移除就无法找回来了!'
+      }
+    })
+    setDialogBoxStatusFn(true)
+  }
+
+  // 对话弹框取消
+  onCancelFn = () => {
+    const { setDialogBoxStatusFn } = this.props
+    setDialogBoxStatusFn(false)
+  }
+
+  // 对话弹框确认
+  onOkFn = () => {
+    const { labelObj } = this.state
+    const { onDelLabel, setDialogBoxStatusFn } = this.props
+    const oJson = {
+      id: labelObj.labelId,
+      name: labelObj.title,
+      mark: labelObj.status
+    }
+    onDelLabel(oJson)
+    setDialogBoxStatusFn(false)
+  }
+
   render() {
+    const { dialogObj } = this.state
     const { labelList } = this.props
 
     return (
@@ -53,7 +99,11 @@ class AssociationLabel extends React.Component {
                         <li className="li"># {item.label_title}</li>
                         <li>
                           <a href="javascript:;">编辑</a>
-                          <a className="a" href="javascript:;">删除</a>
+                          <a
+                            className="a"
+                            href="javascript:;"
+                            onClick={() => this.onDelLabelFn(item.label_id, item.label_title, 0)}
+                          >删除</a>
                         </li>
                       </ul>
                     )
@@ -64,6 +114,12 @@ class AssociationLabel extends React.Component {
             </div>
           </div>
         </div>
+        {/*对话框*/}
+        <DialogBox
+          dialogObj={dialogObj}
+          onOk={() => this.onOkFn()}
+          onCancel={() => this.onCancelFn()}
+        />
       </div>
     )
   }
@@ -78,7 +134,19 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: 'GET_ASSOCIATION_LABEL'
     })
-  }
+  },
+  onDelLabel: (data) => {
+    dispatch({
+      type: 'DEL_LABEL',
+      data
+    })
+  },
+  setDialogBoxStatusFn: dialogBoxStatus => {
+    dispatch({
+      type: 'DIALOG_BOX_STATUS',
+      dialogBoxStatus
+    })
+  },
 })
 
 const AssociationLabelProps = connect(

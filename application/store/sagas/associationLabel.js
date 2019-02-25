@@ -1,4 +1,4 @@
-import { getAssociationLabel } from "../../api/associationLabel"
+import { getAssociationLabel, editLabelList } from "../../api/associationLabel"
 import { ERR_OK } from "../../api/config"
 import {
   all,
@@ -13,8 +13,17 @@ function* getAssociationLabelFn(payload) {
   }
 }
 
+function* onDelLabelFn(payload) {
+  const response = yield editLabelList(payload.data)
+  if (response.errno === ERR_OK) {
+    yield getAssociationLabelFn()
+    alert('移除成功!')
+  }
+}
+
 export default function* commonSagas() {
   yield all([
     yield takeEvery('GET_ASSOCIATION_LABEL', getAssociationLabelFn),
+    yield takeEvery('DEL_LABEL', onDelLabelFn),
   ])
 }

@@ -47,3 +47,26 @@ export const editTopicDetail = (postData) => {
     method: 'POST'
   })
 }
+
+export const modifyTopic = (postData) => {
+  const data = postData
+
+  return axios.request({
+    url: '/manager/topic/management/',
+    data,
+    method: 'POST'
+  })
+}
+
+export const editTopic = (id) => {
+  const data = {
+    topic_id: id,
+    mark: 0
+  }
+  return axios.request({
+    url: '/manager/topic/list',
+    data,
+    method: 'POST'
+  })
+}
+

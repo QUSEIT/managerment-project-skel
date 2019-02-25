@@ -1,6 +1,7 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import DialogBox from '../../../components/management/dialogBox'
 import {connect} from "react-redux"
 import Router from "next/router"
 
@@ -24,8 +25,13 @@ class TopicManagement extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      topicId: '',
       topicStatusId: 0,
-      topicTypeId: ''
+      topicTypeId: '',
+      dialogObj: {
+        title: '',
+        content: ''
+      }
     }
   }
 
@@ -72,13 +78,44 @@ class TopicManagement extends React.Component {
     getTopicList(oJson)
   }
 
+  // 删除帖子
+  onDelTopicFn = (e, topicId) => {
+    const { setDialogBoxStatusFn } = this.props
+    this.setState({
+      topicId: topicId,
+      dialogObj: {
+        title: '是否移除该帖子!',
+        content: '注意一旦移除就无法找回来了!'
+      }
+    })
+    setDialogBoxStatusFn(true)
+    e.stopPropagation()
+  }
+
   // 跳转TopicPublic页面
   onSkipTopicPublicFn = (topicId) => {
     Router.push('/management/topicPublic?topicId=' + topicId)
   }
 
+  // 对话弹框取消
+  onCancelFn = () => {
+    const { setDialogBoxStatusFn } = this.props
+    setDialogBoxStatusFn(false)
+  }
+
+  // 对话弹框确认
+  onOkFn = () => {
+    const { topicId, topicStatusId, topicTypeId } = this.state
+    const { onDelTopic, setDialogBoxStatusFn } = this.props
+    onDelTopic(topicId, () => {
+      this._getTopicListFn(topicStatusId, topicTypeId)
+      alert('移除成功')
+    })
+    setDialogBoxStatusFn(false)
+  }
+
   render() {
-    const { topicStatusId, topicTypeId } = this.state
+    const { topicStatusId, topicTypeId, dialogObj } = this.state
     const { topicList, topicTypeList } = this.props
 
     return (
@@ -163,7 +200,10 @@ class TopicManagement extends React.Component {
                         <li>{item.star_count}</li>
                         <li>{item.create_time}</li>
                         <li>
-                          <a href="javascript:;">删除</a>
+                          <a
+                            href="javascript:;"
+                            onClick={(e) => this.onDelTopicFn(e, item.topic_id)}
+                          >删除</a>
                         </li>
                       </ul>
                     )
@@ -174,6 +214,12 @@ class TopicManagement extends React.Component {
             </div>
           </div>
         </div>
+        {/*对话框*/}
+        <DialogBox
+          dialogObj={dialogObj}
+          onOk={() => this.onOkFn()}
+          onCancel={() => this.onCancelFn()}
+        />
       </div>
     )
   }
@@ -195,7 +241,20 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: 'GET_TOPIC_TYPE_LIST'
     })
-  }
+  },
+  onDelTopic: (topicId, callBack) => {
+    dispatch({
+      type: 'DEL_TOPIC',
+      topicId,
+      callBack
+    })
+  },
+  setDialogBoxStatusFn: dialogBoxStatus => {
+    dispatch({
+      type: 'DIALOG_BOX_STATUS',
+      dialogBoxStatus
+    })
+  },
 })
 
 const TopicManagementProps = connect(

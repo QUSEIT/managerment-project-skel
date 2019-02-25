@@ -60,9 +60,10 @@ class TopicPublic extends React.Component {
       optionList: [],
       option_list: [],
       labelValue: [], // 已选中的关联标签
+      topicReviewStatus: 1, // 帖子审核/通过/不通过状态
       dialogObj: {
-        title: '帖子审核',
-        content: '确认通过该帖子?'
+        title: '',
+        content: ''
       }
     }
   }
@@ -73,8 +74,8 @@ class TopicPublic extends React.Component {
 
   // 加载完成页面之后
   componentDidMount() {
-    const { userPage } = this.state
-    const { getUserList, getLabel, getUptoken, router } = this.props
+    const {userPage} = this.state
+    const {getUserList, getLabel, getUptoken, router} = this.props
     getUserList(userPage)
     getLabel()
     getUptoken()
@@ -86,10 +87,11 @@ class TopicPublic extends React.Component {
 
   // 获取帖子详情
   getTopicDetailFn = (topicId) => {
-    const { getTopicDetail } = this.props
+    const {getTopicDetail} = this.props
     let topicType = ''
+    let _PCUrl = ''
+    let _H5Url = ''
     if (topicId) getTopicDetail(topicId, (res) => {
-      console.log(res)
       if (res.type === '纯文字') {
         topicType = '0'
       }
@@ -105,6 +107,20 @@ class TopicPublic extends React.Component {
       if (res.type === 'gist') {
         topicType = '4'
       }
+      if (res.pdfList.length > 1) {
+        res.pdfList.forEach((item) => {
+          if (item.type === 'pc') {
+            _PCUrl = item.pdfUrl
+          } else {
+            _H5Url = item.pdfUrl
+          }
+        })
+      } else {
+        if (res.pdfList.length === 1) {
+          _PCUrl = res.pdfList[0].pdfUrl
+          _H5Url = res.pdfList[0].pdfUrl
+        }
+      }
       this.setState({
         userVal: res.user.nickname,
         topicType: topicType,
@@ -114,8 +130,8 @@ class TopicPublic extends React.Component {
         titleVal: res.title,
         contentVal: res.content,
         option_list: res.option_list,
-        PCUrl: res.pdfList.length ? res.pdfList[0].pdfUrl: '',
-        H5Url: res.pdfList.length ? res.pdfList[1].pdfUrl: '',
+        PCUrl: _PCUrl,
+        H5Url: _H5Url,
         gistUrl: res.gist,
         option_list: res.option_list
       })
@@ -538,6 +554,19 @@ class TopicPublic extends React.Component {
     }
   }
 
+  // 帖子审核状态
+  onTopicReviewStatusFn = (status) => {
+    const { setDialogBoxStatusFn } = this.props
+    this.setState({
+      topicReviewStatus: status,
+      dialogObj: {
+        title: '帖子审核',
+        content: status === 1 ? '确定通过该帖子?' : '确认审核该帖子?'
+      }
+    })
+    setDialogBoxStatusFn(true)
+  }
+
   // 对话弹框取消
   onCancelFn = () => {
     const { setDialogBoxStatusFn } = this.props
@@ -546,7 +575,13 @@ class TopicPublic extends React.Component {
 
   // 对话弹框确认
   onOkFn = () => {
-    const { setDialogBoxStatusFn } = this.props
+    const { topicId, topicReviewStatus } = this.state
+    const { setDialogBoxStatusFn, onModifyTopicReviewFn } = this.props
+    let postData = {
+      topic_id: topicId,
+      is_agreed: topicReviewStatus
+    }
+    onModifyTopicReviewFn(postData)
     setDialogBoxStatusFn(false)
   }
 
@@ -569,7 +604,7 @@ class TopicPublic extends React.Component {
       option_list,
       dialogObj
     } = this.state
-    const { topicDetail, topicUser, labelList, setDialogBoxStatusFn } = this.props
+    const { topicDetail, topicUser, labelList } = this.props
 
     return (
       <div className='topic-public-wrapper'>
@@ -951,35 +986,14 @@ class TopicPublic extends React.Component {
             ?
               <div className="pass-btn-wrapper">
                 <h3>帖子审核：</h3>
-                <div
-                  className="pass-btn"
-                  onClick={() => {
-                    this.setState({
-                      dialogObj: {
-                        title: '帖子审核',
-                        content: '确认通过该帖子?'
-                      }
-                    }),
-                    setDialogBoxStatusFn(true)
-                  }}
-                >通过</div>
-                <div
-                  className="pass-btn red"
-                  onClick={() => {
-                    this.setState({
-                      dialogObj: {
-                        title: '帖子审核',
-                        content: '确认审核该帖子?'
-                      }
-                    }),
-                    setDialogBoxStatusFn(true)
-                  }}
-                >不通过</div>
+                <div className="pass-btn" onClick={() => this.onTopicReviewStatusFn(1)}>通过</div>
+                <div className="pass-btn" onClick={() => this.onTopicReviewStatusFn(2)}>不通过</div>
               </div>
               :
               null
           }
         </div>
+        {/*对话框*/}
         <DialogBox
           dialogObj={dialogObj}
           onOk={() => this.onOkFn()}
@@ -1043,6 +1057,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: 'DIALOG_BOX_STATUS',
       dialogBoxStatus
+    })
+  },
+  onModifyTopicReviewFn: data => {
+    dispatch({
+      type: 'MODIFY_TOPIC_REVIEW',
+      data
     })
   }
 })

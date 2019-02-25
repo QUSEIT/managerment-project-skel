@@ -4,7 +4,9 @@ import {
   getTopicDatail,
   getUserList,
   publishTopic,
-  editTopicDetail
+  editTopicDetail,
+  modifyTopic,
+  editTopic
 } from "../../api/topicManagement"
 import { getUpToken } from "../../api/upTokenApi"
 import { ERR_OK } from "../../api/config"
@@ -55,6 +57,7 @@ function* onPublishTopicFn(payload) {
   const response = yield publishTopic(payload.data)
   if (response.errno === ERR_OK) {
     Router.push('/management/topicManagement')
+    alert('发布成功')
   } else {
     alert('发布失败!')
   }
@@ -64,8 +67,28 @@ function* onEditTopicDetailFn(payload) {
   const response = yield editTopicDetail(payload.data)
   if (response.errno === ERR_OK) {
     Router.push('/management/topicManagement')
+    alert('修改成功')
   } else {
     alert('修改失败!')
+  }
+}
+
+function* onModifyTopicReviewFn(payload) {
+  const response = yield modifyTopic(payload.data)
+  if (response.errno === ERR_OK) {
+    Router.push('/management/topicManagement')
+    alert('操作成功')
+  } else {
+    alert('操作失败!')
+  }
+}
+
+function* onDelTopicFn(payload) {
+  const response = yield editTopic(payload.topicId)
+  if (response.errno === ERR_OK) {
+    payload.callBack()
+  } else {
+    alert('移除失败!')
   }
 }
 
@@ -78,5 +101,7 @@ export default function* commonSagas() {
     yield takeEvery('GET_UP_TOKEN', getUpTokenFn),
     yield takeEvery('SET_PUBLISH_TOPIC', onPublishTopicFn),
     yield takeEvery('EDIT_TOPIC_DETAIL', onEditTopicDetailFn),
+    yield takeEvery('MODIFY_TOPIC_REVIEW', onModifyTopicReviewFn),
+    yield takeEvery('DEL_TOPIC', onDelTopicFn),
   ])
 }

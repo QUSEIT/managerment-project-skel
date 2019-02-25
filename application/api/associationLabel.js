@@ -20,5 +20,19 @@ export const editAssociationLabel = (oJson) => {
   })
 }
 
+export const editLabelList = (oJson) => {
+  const data = {
+    label_name: oJson.name,
+    label_id: oJson.id,
+    mark: oJson.mark
+  }
+  return axios.request({
+    url: '/manager/relevance/tag/list',
+    data,
+    method: 'POST'
+  })
+}
+
+
 
 
