@@ -3,7 +3,8 @@ export default (
     leftNavStatus: false,
     activeNavObj: {},
     uploadToke: '',
-    dialogBoxStatus: false
+    dialogBoxStatus: false,
+    inputDialogBoxStatus: false
   }, action,
 ) => {
   switch (action.type) {
@@ -26,6 +27,11 @@ export default (
       return {
         ...state,
         dialogBoxStatus: action.dialogBoxStatus
+      }
+    case 'INPUT_DIALOG_BOX_STATUS':
+      return {
+        ...state,
+        inputDialogBoxStatus: action.inputDialogBoxStatus
       }
     default:
       return state

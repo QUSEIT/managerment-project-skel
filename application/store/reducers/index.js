@@ -3,9 +3,11 @@ import { combineReducers } from 'redux'
 import common from './common'
 import topicManagement from './topicManagement'
 import associationLabel from './associationLabel'
+import userManagement from './userManagement'
 
 export default combineReducers({
   common,
   topicManagement,
-  associationLabel
+  associationLabel,
+  userManagement
 })

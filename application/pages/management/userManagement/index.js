@@ -1,6 +1,7 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import { connect } from "react-redux"
 
 class UserManagement extends React.Component {
   // 状态机
@@ -16,9 +17,14 @@ class UserManagement extends React.Component {
 
   // 加载完成页面之后
   componentDidMount() {
+    const { getMemberList } = this.props
+    getMemberList(1)
   }
 
   render() {
+    const { memberList } = this.props
+    console.log(memberList)
+
     return (
       <div className='user-management-wrapper'>
         {/*TopUserInfo*/}
@@ -40,16 +46,31 @@ class UserManagement extends React.Component {
               </ul>
             </div>
             <div className="topic-main">
-              <ul>
-                <li>
-                  <img src=''/>
-                </li>
-                <li>小莫</li>
-                {/*<li>男</li>*/}
-                <li>女</li>
-                <li>2019-01-25</li>
-                <li>2019-01-30 10:22</li>
-              </ul>
+              {
+                memberList.length
+                ?
+                  memberList.map((item, i) => {
+                    return (
+                      <ul key={i}>
+                        <li>
+                          <img src={item.avatar}/>
+                        </li>
+                        <li>{item.nickname}</li>
+                        {
+                          item.gender === 0 || item.gender === 1
+                          ?
+                            <li>男</li>
+                            :
+                            <li>女</li>
+                        }
+                        <li>{item.birthday}</li>
+                        <li>{item.create_time}</li>
+                      </ul>
+                    )
+                  })
+                  :
+                  null
+              }
             </div>
           </div>
         </div>
@@ -58,4 +79,22 @@ class UserManagement extends React.Component {
   }
 }
 
-export default UserManagement
+const mapStateToProps = state => ({
+  memberList: state.userManagement.memberList
+})
+
+const mapDispatchToProps = dispatch => ({
+  getMemberList: page => {
+    dispatch({
+      type: 'GET_MEMBER_LIST',
+      page
+    })
+  }
+})
+
+const UserManagementProps = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserManagement)
+
+export default UserManagementProps

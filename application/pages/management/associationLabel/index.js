@@ -2,6 +2,7 @@ import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import DialogBox from '../../../components/management/dialogBox'
+import InputDialogBox from '../../../components/management/inputDialogBox'
 import { connect } from "react-redux"
 
 class AssociationLabel extends React.Component {
@@ -17,7 +18,8 @@ class AssociationLabel extends React.Component {
       dialogObj: {
         title: '',
         content: ''
-      }
+      },
+      labelValue: ''
     }
   }
 
@@ -58,19 +60,47 @@ class AssociationLabel extends React.Component {
   // 对话弹框确认
   onOkFn = () => {
     const { labelObj } = this.state
-    const { onDelLabel, setDialogBoxStatusFn } = this.props
+    const { onDelEditAddLabel, setDialogBoxStatusFn } = this.props
     const oJson = {
       id: labelObj.labelId,
       name: labelObj.title,
       mark: labelObj.status
     }
-    onDelLabel(oJson)
+    onDelEditAddLabel(oJson)
     setDialogBoxStatusFn(false)
   }
 
+  // input输入值
+  onChangeInput = (e) => {
+    this.setState({ labelValue: e.target.value })
+  }
+
+  // input对话框取消
+  onInputCancelFn = () => {
+    const { setInputDialogBoxStatusFn } = this.props
+    setInputDialogBoxStatusFn(false)
+  }
+
+  // input对话框确认
+  onInputOkFn = () => {
+    const { labelValue, labelObj } = this.state
+    const { onDelEditAddLabel, setInputDialogBoxStatusFn } = this.props
+    const oJson = {
+      id: labelObj.labelId,
+      name: labelValue,
+      mark: labelObj.status
+    }
+    if (labelValue) {
+      onDelEditAddLabel(oJson)
+      setInputDialogBoxStatusFn(false)
+    } else {
+      alert('标签不能为空!')
+    }
+  }
+
   render() {
-    const { dialogObj } = this.state
-    const { labelList } = this.props
+    const { dialogObj, labelValue, labelObj } = this.state
+    const { labelList, setInputDialogBoxStatusFn } = this.props
 
     return (
       <div className='association-label-wrapper'>
@@ -80,7 +110,20 @@ class AssociationLabel extends React.Component {
         <MainNav />
         <div className="association-label-main">
           <div className="add-type-wrapper">
-            <div className="add-type">添加标签</div>
+            <div
+              className="add-type"
+              onClick={() => {
+                setInputDialogBoxStatusFn(true)
+                this.setState({
+                  labelValue: '',
+                  labelObj: {
+                    labelId: '',
+                    title: '添加标签',
+                    status: 1
+                  }
+                })
+              }}
+            >添加标签</div>
           </div>
           <div className="label-wrapper">
             <div className="topic-top">
@@ -98,7 +141,20 @@ class AssociationLabel extends React.Component {
                       <ul key={i}>
                         <li className="li"># {item.label_title}</li>
                         <li>
-                          <a href="javascript:;">编辑</a>
+                          <a
+                            href="javascript:;"
+                            onClick={() => {
+                              setInputDialogBoxStatusFn(true)
+                              this.setState({
+                                labelValue: item.label_title,
+                                labelObj: {
+                                  labelId: item.label_id,
+                                  title: '编辑标签',
+                                  status: 2
+                                }
+                              })
+                            }}
+                          >编辑</a>
                           <a
                             className="a"
                             href="javascript:;"
@@ -120,6 +176,14 @@ class AssociationLabel extends React.Component {
           onOk={() => this.onOkFn()}
           onCancel={() => this.onCancelFn()}
         />
+        {/*input对话框*/}
+        <InputDialogBox
+          InputDialogBoxTitle={labelObj.title}
+          onChange={(e) => this.onChangeInput(e)}
+          value={labelValue}
+          onOk={() => this.onInputOkFn()}
+          onCancel={() => this.onInputCancelFn()}
+        />
       </div>
     )
   }
@@ -135,9 +199,9 @@ const mapDispatchToProps = dispatch => ({
       type: 'GET_ASSOCIATION_LABEL'
     })
   },
-  onDelLabel: (data) => {
+  onDelEditAddLabel: (data) => {
     dispatch({
-      type: 'DEL_LABEL',
+      type: 'DEL_EDIT_ADD_LABEL',
       data
     })
   },
@@ -147,6 +211,12 @@ const mapDispatchToProps = dispatch => ({
       dialogBoxStatus
     })
   },
+  setInputDialogBoxStatusFn: inputDialogBoxStatus => {
+    dispatch({
+      type: 'INPUT_DIALOG_BOX_STATUS',
+      inputDialogBoxStatus
+    })
+  }
 })
 
 const AssociationLabelProps = connect(
