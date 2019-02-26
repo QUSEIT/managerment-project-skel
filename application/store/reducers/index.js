@@ -4,10 +4,14 @@ import common from './common'
 import topicManagement from './topicManagement'
 import associationLabel from './associationLabel'
 import userManagement from './userManagement'
+import attentionConfiguration from './attentionConfiguration'
+import createRobot from './createRobot'
 
 export default combineReducers({
   common,
   topicManagement,
   associationLabel,
-  userManagement
+  userManagement,
+  attentionConfiguration,
+  createRobot
 })

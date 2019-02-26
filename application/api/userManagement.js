@@ -6,3 +6,14 @@ export const getMemberList = (page) => {
     method: 'GET'
   })
 }
+
+export const addUser = (oJson) => {
+  const data = oJson
+
+  return axios.request({
+    url: '/manager/user/create',
+    data,
+    method: 'POST'
+  })
+}
+

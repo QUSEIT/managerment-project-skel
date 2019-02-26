@@ -1,0 +1,103 @@
+.user-management-add-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 190px 30px 30px 270px;
+  z-index: 10;
+  background-color: #f5f7f9;
+  box-sizing: border-box;
+  .form-warp {
+    width: 100%;
+    height: auto;
+    h3 {
+      width: 100%;
+      height: auto;
+      text-align: center;
+      line-height: 50px;
+      font-size: 20px;
+      color: #515a6e;
+    }
+    .upload-wrapper {
+      width: 100%;
+      height: auto;
+      padding-bottom: 50px;
+      display: flex;
+      justify-content: center;
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        box-sizing: border-box;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .upload-input {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        i {
+          width: 30px;
+          height: 30px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        input {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
+    }
+    .name-wrapper, .sex-wrapper {
+      width: 100%;
+      height: auto;
+      padding-bottom: 50px;
+      display: flex;
+      justify-content: center;
+      input, select {
+        width: 300px;
+        height: 32px;
+        padding: 0 10px;
+        border-radius: 5px;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+    }
+    .publicBtn {
+      width: 100px;
+      height: 32px;
+      margin: 0 auto;
+      border-radius: 5px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 32px;
+      cursor: pointer;
+      color: #fff;
+      background-color: #2db7f5;
+    }
+  }
+}
+

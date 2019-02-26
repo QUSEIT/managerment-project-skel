@@ -2,6 +2,7 @@ import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import { connect } from "react-redux"
+import Router from "next/router"
 
 class UserManagement extends React.Component {
   // 状态机
@@ -21,9 +22,13 @@ class UserManagement extends React.Component {
     getMemberList(1)
   }
 
+  // 跳转创建用户
+  onSkipUserManagementAdd = () => {
+    Router.push('/management/userManagementAdd')
+  }
+
   render() {
     const { memberList } = this.props
-    console.log(memberList)
 
     return (
       <div className='user-management-wrapper'>
@@ -33,7 +38,7 @@ class UserManagement extends React.Component {
         <MainNav />
         <div className="user-management-content">
           <div className="add-type-wrapper">
-            <div className="add-type">创建用户</div>
+            <div className="add-type" onClick={() => this.onSkipUserManagementAdd()}>创建用户</div>
           </div>
           <div className="topic-wrappers">
             <div className="topic-top">
