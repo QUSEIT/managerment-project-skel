@@ -1,6 +1,8 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import { connect } from "react-redux"
+import backstageUserManagement from "../../../store/reducers/backstageUserManagement";
 
 class BackstageUserManagement extends React.Component {
   // 状态机
@@ -16,9 +18,13 @@ class BackstageUserManagement extends React.Component {
 
   // 加载完成页面之后
   componentDidMount() {
+    const { getAdminUserList } = this.props
+    getAdminUserList()
   }
 
   render() {
+    const { adminUserList } = this.props
+
     return (
       <div className='backstage-user-management-wrapper'>
         {/*TopUserInfo*/}
@@ -37,13 +43,23 @@ class BackstageUserManagement extends React.Component {
               </ul>
             </div>
             <div className="user-main">
-              <ul>
-                <li className="li">小莫</li>
-                <li>
-                  <a href="javascript:;">编辑</a>
-                  <a className="a" href="javascript:;">删除</a>
-                </li>
-              </ul>
+              {
+                adminUserList.length
+                ?
+                  adminUserList.map((item, i) => {
+                    return (
+                      <ul key={i}>
+                        <li className="li">{item.username}</li>
+                        <li>
+                          <a href="javascript:;">编辑</a>
+                          <a className="a" href="javascript:;">删除</a>
+                        </li>
+                      </ul>
+                    )
+                  })
+                  :
+                  null
+              }
             </div>
           </div>
         </div>
@@ -52,4 +68,21 @@ class BackstageUserManagement extends React.Component {
   }
 }
 
-export default BackstageUserManagement
+const mapStateToProps = state => ({
+  adminUserList: state.backstageUserManagement.adminUserList
+})
+
+const mapDispatchToProps = dispatch => ({
+  getAdminUserList: data => {
+    dispatch({
+      type: 'GET_ADMIN_USER_LIST'
+    })
+  },
+})
+
+const BackstageUserManagementProps = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BackstageUserManagement)
+
+export default BackstageUserManagementProps
