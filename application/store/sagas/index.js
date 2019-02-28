@@ -7,6 +7,7 @@ import attentionConfiguration from './attentionConfiguration'
 import createRobot from './createRobot'
 import setting from './setting'
 import backstageUserManagement from './backstageUserManagement'
+import robotManagement from './robotManagement'
 
 export default function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     ...attentionConfiguration(),
     ...createRobot(),
     ...setting(),
-    ...backstageUserManagement()
+    ...backstageUserManagement(),
+    ...robotManagement()
   ])
 }

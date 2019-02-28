@@ -7,6 +7,7 @@ import userManagement from './userManagement'
 import attentionConfiguration from './attentionConfiguration'
 import createRobot from './createRobot'
 import backstageUserManagement from './backstageUserManagement'
+import robotManagement from './robotManagement'
 
 export default combineReducers({
   common,
@@ -15,5 +16,6 @@ export default combineReducers({
   userManagement,
   attentionConfiguration,
   createRobot,
-  backstageUserManagement
+  backstageUserManagement,
+  robotManagement
 })

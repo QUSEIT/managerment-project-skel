@@ -2,7 +2,6 @@ import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import { connect } from "react-redux"
-import backstageUserManagement from "../../../store/reducers/backstageUserManagement";
 
 class BackstageUserManagement extends React.Component {
   // 状态机
