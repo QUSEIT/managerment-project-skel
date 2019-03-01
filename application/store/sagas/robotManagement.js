@@ -1,4 +1,4 @@
-import { getBotAllowList, getBotFakerUserList, editFakerUser } from "../../api/robotManagement"
+import { getBotAllowList, setBotAllowList, getBotFakerUserList, editFakerUser } from "../../api/robotManagement"
 import { ERR_OK } from "../../api/config"
 import {
   all,
@@ -10,6 +10,14 @@ function* getBotAllowListFn(payload) {
   const response = yield getBotAllowList()
   if (response.errno === ERR_OK) {
     yield put({ type: 'ROBOT_ALLOW_LIST', robotAllowList: response.data })
+  }
+}
+
+function* setBotAllowListFn(payload) {
+  const response = yield setBotAllowList(payload.data)
+  if (response.errno === ERR_OK) {
+    yield getBotAllowListFn()
+    alert('操作成功...')
   }
 }
 
@@ -36,6 +44,7 @@ function* editFakerUserFn(payload) {
 export default function* commonSagas() {
   yield all([
     yield takeEvery('GET_BOT_ALLOW_LIST', getBotAllowListFn),
+    yield takeEvery('SET_BOT_ALLOW_LIST', setBotAllowListFn),
     yield takeEvery('GET_BOT_FAKER_USER_LIST', getBotFakerUserListFn),
     yield takeEvery('SET_EDIT_FAKER_USER', editFakerUserFn),
   ])

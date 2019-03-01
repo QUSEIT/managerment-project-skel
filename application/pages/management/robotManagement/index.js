@@ -1,6 +1,7 @@
 import React from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
+import InputDialogBox from '../../../components/management/inputDialogBox'
 import { connect } from "react-redux"
 
 class RobotManagement extends React.Component {
@@ -10,6 +11,16 @@ class RobotManagement extends React.Component {
     this.state = {
       selectUserStatus: false, // 显示/隐藏选择用户状态
       userPage: 1, // 获取用户页数
+      nickname: '',
+      addStatus: false,
+      nameVal: '',
+      labelObj: {
+        labelId: '',
+        title: '',
+        status: 0
+      },
+      inputNicknameVal: '',
+      inputNicknameIndex: ''
     }
   }
 
@@ -24,6 +35,63 @@ class RobotManagement extends React.Component {
     getBotAllowList()
     getUserList(userPage)
     getBotFakerUserList()
+  }
+
+  // 确定添加昵称
+  onAddNickNames = (mark) => {
+    const { nameVal } = this.state
+    const { pushRobotAllowList, robotAllowList } = this.props
+    let robotAllowLists = robotAllowList
+    if (robotAllowLists.nickname.indexOf(nameVal) > -1) {
+      alert('此昵称已存在...')
+      return false
+    } else {
+      if (nameVal) {
+        robotAllowLists.nickname.push(nameVal)
+        pushRobotAllowList(robotAllowLists)
+        this.onEditFn(mark)
+      } else {
+        alert('昵称不能为空...')
+      }
+    }
+  }
+
+  // 编辑昵称和删除
+  handleRender (mark, value, index) {
+    const { setInputDialogBoxStatusFn } = this.props
+    if (mark === 'edit') {
+      this.setState({
+        inputNicknameVal: value,
+        inputNicknameIndex: index,
+      })
+      setInputDialogBoxStatusFn(true)
+    } else {
+      const { pushRobotAllowList, robotAllowList } = this.props
+      let robotAllowLists = robotAllowList
+      robotAllowLists.nickname.splice(index, 1)
+      pushRobotAllowList(robotAllowLists)
+      this.onEditFn(mark)
+    }
+  }
+
+  onEditFn = (mark) => {
+    const { robotAllowList, setBotAllowList } = this.props
+    let start_str = ''
+    let end_str = ''
+    if (mark === 'edit') {
+      start_str = ''
+      end_str = ''
+    } else {
+      start_str = robotAllowList.start_str
+      end_str = robotAllowList.end_str
+    }
+    const postData = {
+      start_str: start_str,
+      end_str: end_str,
+      nickname: robotAllowList.nickname
+    }
+    this.setState({ nameVal: '' })
+    setBotAllowList(postData)
   }
 
   // 获取上一批/下一批用户数据
@@ -54,18 +122,47 @@ class RobotManagement extends React.Component {
 
   onSetUser = (nickname, mark, unionid) => {
     const { setEditFakerUser } = this.props
+    if (nickname === '') {
+      nickname = this.state.nickname
+    }
     const postData = {
       type: mark,
       unionid: unionid || '',
       nickname: nickname
     }
     setEditFakerUser(postData)
+    this.setState({
+      selectUserStatus: false
+    })
+  }
+
+  // input输入值
+  onChangeInput = (e) => {
+    this.setState({ inputNicknameVal: e.target.value })
+  }
+
+  // input对话框取消
+  onInputCancelFn = () => {
+    const { setInputDialogBoxStatusFn } = this.props
+    setInputDialogBoxStatusFn(false)
+  }
+
+  // input对话框确认
+  onInputOkFn = () => {
+    const { inputNicknameVal, inputNicknameIndex } = this.state
+    const { setInputDialogBoxStatusFn, robotAllowList, setBotAllowList } = this.props
+    if (!inputNicknameVal) {
+      alert('请填写昵称...')
+      return false
+    }
+    robotAllowList.nickname[inputNicknameIndex] = inputNicknameVal
+    setBotAllowList(robotAllowList)
+    setInputDialogBoxStatusFn(false)
   }
 
   render() {
-    const { selectUserStatus } = this.state
+    const { addStatus, nameVal, selectUserStatus, labelObj, inputNicknameVal } = this.state
     const { robotAllowList, topicUser, robotManagementList } = this.props
-    console.log(topicUser)
 
     return (
       <div className='robot-management-wrapper'>
@@ -74,15 +171,31 @@ class RobotManagement extends React.Component {
         {/*MainNav*/}
         <MainNav />
         <div className="robot-management-content">
-          <div className="publicBtn">增加昵称</div>
+          {
+            addStatus
+            ?
+              <div className="add-nickname">
+                <input
+                  type="text"
+                  value={nameVal}
+                  onChange={(e) => {
+                    this.setState({ nameVal : e.target.value })
+                  }}
+                />
+                <div className="add-name-btn" onClick={() => this.onAddNickNames('add')}>添加</div>
+                <div className="add-name-btn" onClick={() => this.setState({ addStatus: false })}>取消</div>
+              </div>
+              :
+              <div className="publicBtn" onClick={() => this.setState({ addStatus: true })}>增加昵称</div>
+          }
           <div className="admin-robots">
             <div className="topic-wrapper topic-wrapper-width">
               <div className="topic-top">
-                <ul>
+                <div className='ul'>
                   <li>机器人昵称</li>
                   <li>操作</li>
                   <li>设置关联用户</li>
-                </ul>
+                </div>
                 {
                   selectUserStatus
                     ?
@@ -95,7 +208,7 @@ class RobotManagement extends React.Component {
                               return (
                                 <li
                                   key={i}
-                                  onClick={() => this.onSelectUserFn(item.nickname, item.uid)}
+                                  onClick={() => this.onSetUser('', 0, item.uid)}
                                 >{item.nickname}</li>
                               )
                             })
@@ -128,13 +241,20 @@ class RobotManagement extends React.Component {
                             <span>{item}</span>
                           </li>
                           <li>
-                            <a href="javascript:;">编辑</a>
-                            <a className='red' href="javascript:;">删除</a>
+                            <a
+                              href="javascript:;"
+                              onClick={() => this.handleRender('edit', item, i)}
+                            >编辑</a>
+                            <a
+                              className='red'
+                              href="javascript:;"
+                              onClick={() => this.handleRender('delect', item, i)}
+                            >删除</a>
                           </li>
                           <li className="selectUser">
                             <div
                               className="input"
-                              onClick={() => this.setState({ selectUserStatus: !selectUserStatus })}
+                              onClick={() => this.setState({ selectUserStatus: !selectUserStatus, nickname: item })}
                             >
                               请选择
                             </div>
@@ -149,7 +269,7 @@ class RobotManagement extends React.Component {
             </div>
             <div className="topic-wrapper topic-wrapper-width">
               <div className="topic-top">
-                <ul>
+                <ul className='ul'>
                   <li className="li">start</li>
                   <li className="li">end</li>
                   <li>操作</li>
@@ -168,7 +288,7 @@ class RobotManagement extends React.Component {
           </div>
           <div className="topic-wrapper">
             <div className="topic-top" style={{width: 100 + '%'}}>
-              <ul>
+              <ul className='ul'>
                 <li className="li">机器人</li>
                 <li className="li">关联用户</li>
                 <li className="li">用户昵称</li>
@@ -201,6 +321,14 @@ class RobotManagement extends React.Component {
             </div>
           </div>
         </div>
+        {/*input对话框*/}
+        <InputDialogBox
+          InputDialogBoxTitle={labelObj.title}
+          onChange={(e) => this.onChangeInput(e)}
+          value={inputNicknameVal}
+          onOk={() => this.onInputOkFn()}
+          onCancel={() => this.onInputCancelFn()}
+        />
       </div>
     )
   }
@@ -213,9 +341,21 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  pushRobotAllowList: robotAllowList => {
+    dispatch({
+      type: 'ROBOT_ALLOW_LIST',
+      robotAllowList
+    })
+  },
   getBotAllowList: data => {
     dispatch({
       type: 'GET_BOT_ALLOW_LIST',
+    })
+  },
+  setBotAllowList: data => {
+    dispatch({
+      type: 'SET_BOT_ALLOW_LIST',
+      data
     })
   },
   getUserList: (data) => {
@@ -235,6 +375,12 @@ const mapDispatchToProps = dispatch => ({
       data
     })
   },
+  setInputDialogBoxStatusFn: inputDialogBoxStatus => {
+    dispatch({
+      type: 'INPUT_DIALOG_BOX_STATUS',
+      inputDialogBoxStatus
+    })
+  }
 })
 
 const RobotManagementProps = connect(

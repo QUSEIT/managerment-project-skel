@@ -7,6 +7,16 @@ export const getBotAllowList = () => {
   })
 }
 
+export const setBotAllowList = (postData) => {
+  const data = postData
+  return axios.request({
+    url: '/manager/bot_allow',
+    data,
+    method: 'POST'
+  })
+}
+
+
 export const getBotFakerUserList = () => {
   return axios.request({
     url: '/manager/bot_faker_user',

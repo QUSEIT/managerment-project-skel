@@ -25,23 +25,52 @@
       color: #fff;
       background-color: #2db7f5;
     }
-    .admin-robots {
+    .add-nickname {
+      width: 100%;
+      height: auto;
       display: flex;
-      justify-content: space-between;
+      input {
+        width: 100px;
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid #dcdee2;
+        border-radius: 4px;
+        background-color: #fff;
+        box-sizing: border-box;
+      }
+      .add-name-btn {
+        height: 32px;
+        padding: 0 10px;
+        margin-left: 15px;
+        border-radius: 4px;
+        line-height: 32px;
+        font-size: 12px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #2db7f5;
+      }
+    }
+    .admin-robots {
+      width: 100%;
+      height: auto;
+      display: flex;
       .topic-wrapper-width {
-        width: 580px;
+        width: 450px;
+        padding-right: 100px;
       }
     }
     .topic-wrapper {
+      width: 100%;
       height: auto;
-      margin-top: 30px;
+      padding-top: 30px;
       position: relative;
       .topic-top {
-        width: 75%;
+        position: relative;
+        width: 100%;
         border: 1px solid #dcdee2;
         background-color: #F8F8F9;
         box-sizing: border-box;
-        ul {
+        .ul {
           width: 100%;
           height: auto;
           display: flex;
@@ -61,9 +90,9 @@
         }
         .user-wrapper {
           position: absolute;
-          left: 0;
-          top: 88px;
-          width: 375px;
+          right: -252px;
+          top: -1px;
+          width: 250px;
           border: 1px solid #dcdee2;
           background-color: #fff;
           z-index: 999;
@@ -109,7 +138,7 @@
         }
       }
       .topic-main {
-        width: 75%;
+        width: 100%;
         border-left: 1px solid #dcdee2;
         border-right: 1px solid #dcdee2;
         box-sizing: border-box;

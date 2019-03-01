@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux"
+import Router from 'next/router'
 
 class TopUserInfo extends React.Component {
   constructor(props) {
@@ -12,6 +13,10 @@ class TopUserInfo extends React.Component {
   }
 
   componentDidMount() {
+  }
+
+  onSkipLoginFn = () => {
+    Router.push('/management/Login')
   }
 
   render() {
@@ -29,7 +34,7 @@ class TopUserInfo extends React.Component {
           <h2></h2>
           <div className="triangle-wrapper">
             <span></span>
-            <div className="out-btn">退出登录</div>
+            <div className="out-btn" onClick={() => this.onSkipLoginFn()}>退出登录</div>
           </div>
         </div>
       </div>
