@@ -189,6 +189,12 @@
           }
           .li {
             flex: 1;
+            input {
+              width: 100%;
+              height: 32px;
+              padding: 0 10px;
+              box-sizing: border-box;
+            }
           }
           .selectUser {
             position: relative

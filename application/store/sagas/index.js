@@ -8,6 +8,7 @@ import createRobot from './createRobot'
 import setting from './setting'
 import backstageUserManagement from './backstageUserManagement'
 import robotManagement from './robotManagement'
+import moreOperating from './moreOperating'
 
 export default function* rootSaga() {
   yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga() {
     ...createRobot(),
     ...setting(),
     ...backstageUserManagement(),
-    ...robotManagement()
+    ...robotManagement(),
+    ...moreOperating()
   ])
 }

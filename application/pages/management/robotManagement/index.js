@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import InputDialogBox from '../../../components/management/inputDialogBox'
@@ -20,7 +20,10 @@ class RobotManagement extends React.Component {
         status: 0
       },
       inputNicknameVal: '',
-      inputNicknameIndex: ''
+      inputNicknameIndex: '',
+      editStatus: false,
+      start_str: '',
+      end_str: ''
     }
   }
 
@@ -76,18 +79,32 @@ class RobotManagement extends React.Component {
 
   onEditFn = (mark) => {
     const { robotAllowList, setBotAllowList } = this.props
-    let start_str = ''
-    let end_str = ''
+    let startStr = ''
+    let endStr = ''
     if (mark === 'edit') {
-      start_str = ''
-      end_str = ''
+      const { start_str, end_str } = this.state
+      if (!start_str) {
+        alert('请填写start!')
+        return false
+      }
+      if (!end_str) {
+        alert('请填写end!')
+        return false
+      }
+      startStr = start_str
+      endStr = end_str
+      this.setState({
+        start_str: '',
+        end_str: '',
+        editStatus: false
+      })
     } else {
-      start_str = robotAllowList.start_str
-      end_str = robotAllowList.end_str
+      startStr = robotAllowList.start_str
+      endStr = robotAllowList.end_str
     }
     const postData = {
-      start_str: start_str,
-      end_str: end_str,
+      start_str: startStr,
+      end_str: endStr,
       nickname: robotAllowList.nickname
     }
     this.setState({ nameVal: '' })
@@ -161,7 +178,16 @@ class RobotManagement extends React.Component {
   }
 
   render() {
-    const { addStatus, nameVal, selectUserStatus, labelObj, inputNicknameVal } = this.state
+    const {
+      addStatus,
+      nameVal,
+      selectUserStatus,
+      labelObj,
+      inputNicknameVal,
+      editStatus,
+      start_str,
+      end_str
+    } = this.state
     const { robotAllowList, topicUser, robotManagementList } = this.props
 
     return (
@@ -277,10 +303,51 @@ class RobotManagement extends React.Component {
               </div>
               <div className="topic-main">
                 <ul>
-                  <li className="li">{robotAllowList.start_str}</li>
-                  <li className="li">{robotAllowList.end_str}</li>
+                  {
+                    editStatus
+                    ?
+                      <Fragment>
+                        <li className="li">
+                          <input
+                            type="text"
+                            value={start_str}
+                            onChange={(e) => this.setState({ start_str: e.target.value })}
+                          />
+                        </li>
+                        <li className="li">
+                          <input
+                            type="text"
+                            value={end_str}
+                            onChange={(e) => this.setState({ end_str: e.target.value })}
+                          />
+                        </li>
+                      </Fragment>
+                      :
+                      <Fragment>
+                        <li className="li">{robotAllowList.start_str}</li>
+                        <li className="li">{robotAllowList.end_str}</li>
+                      </Fragment>
+                  }
                   <li>
-                    <a href="javascript:;">编辑</a>
+                    {
+                      editStatus
+                        ?
+                        <Fragment>
+                          <a
+                            href="javascript:;"
+                            onClick={() => this.onEditFn('edit')}
+                          >确认</a>
+                          <a
+                            href="javascript:;"
+                            onClick={() => this.setState({editStatus: false})}
+                          >取消</a>
+                        </Fragment>
+                        :
+                        <a
+                          href="javascript:;"
+                          onClick={() => this.setState({editStatus: true})}
+                        >编辑</a>
+                    }
                   </li>
                 </ul>
               </div>
