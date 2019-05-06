@@ -515,25 +515,40 @@ class TopicPublic extends React.Component {
           isPay: false,
         })
       }
-      const postData = {
-        unionid: userUid,
-        type: topicType,
-        title: titleVal,
-        content: contentVal,
-        first_img: localCoverUrl,
-        images: httpImgLists,
-        pdfs: [{ url: PCUrl, type: 'pc' }, { url: H5Url, type: 'wechat' }],
-        gist_url: gistUrl,
-        mark: single,
-        tags: labelValue,
-        pay: isPay,
-        money: isPay ? payVal : 0,
-        optionList: topicType === '3' ? optionList : [],
-        // 'mentionUsers': [],
-        // 'displayTopic': true,
-        // 'immediateNotice': true,
-        // 'oneOff': true,
-        // 'interval': '0-0-0-0-0-0',
+      let postData;
+      if (topicType === '1') {
+        postData = {
+          // unionid: userUid,
+          id: userUid,
+          type: topicType,
+          title: titleVal,
+          content: contentVal,
+          tags: labelValue,
+          pay: isPay,
+          interval: '0-0-0-0-0-0',
+        }
+      } else {
+        postData = {
+          unionid: userUid,
+          id: userUid,
+          type: topicType,
+          title: titleVal,
+          content: contentVal,
+          first_img: localCoverUrl,
+          images: httpImgLists,
+          pdfs: [{ url: PCUrl, type: 'pc' }, { url: H5Url, type: 'wechat' }],
+          gist_url: gistUrl,
+          mark: single,
+          tags: labelValue,
+          pay: isPay,
+          money: isPay ? payVal : 0,
+          optionList: topicType === '3' ? optionList : [],
+          mentionUsers: [],
+          displayTopic: true,
+          immediateNotice: true,
+          oneOff: true,
+          interval: '0-0-0-0-0-0',
+        }
       }
       onPublishTopicFn(postData)
     } else {
@@ -632,7 +647,7 @@ class TopicPublic extends React.Component {
                             ? topicUser.data.map((item, i) => (
                               <li
                                 key={i}
-                                onClick={() => this.onSelectUserFn(item.nickname, item.uid)}
+                                onClick={() => this.onSelectUserFn(item.nickname, item.id)}
                               >
                                 {item.nickname}
                               </li>
