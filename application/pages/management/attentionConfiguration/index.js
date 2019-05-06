@@ -1,7 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
 
 class AttentionConfiguration extends React.Component {
   // 状态机
@@ -32,32 +32,28 @@ class AttentionConfiguration extends React.Component {
     this.setState({
       userVal: name,
       userId: id,
-      selectUserStatus: false
+      selectUserStatus: false,
     })
   }
 
   // 获取上一批/下一批用户数据
-  onSwiperFn = (status) => {
+  onSwiperFn = status => {
     const { userPage } = this.state
     const { topicUser, getUserList } = this.props
     const dataCount = Math.ceil(topicUser.data_count / 10)
     if (status && userPage > 1) {
       this.setState({
-        userPage: userPage - 1
+        userPage: userPage - 1,
       })
-    } else {
-      if (status && userPage === 1) {
-        return false
-      }
+    } else if (status && userPage === 1) {
+      return false
     }
     if (!status && userPage < dataCount) {
       this.setState({
-        userPage: userPage + 1
+        userPage: userPage + 1,
       })
-    } else {
-      if (!status && userPage === dataCount) {
-        return false
-      }
+    } else if (!status && userPage === dataCount) {
+      return false
     }
     getUserList(this.state.userPage)
   }
@@ -65,14 +61,14 @@ class AttentionConfiguration extends React.Component {
   // 删除用户
   onDelectFn = (uid, mark) => {
     this.setState({
-      userId: uid
-    }, function () {
+      userId: uid,
+    }, () => {
       this.addFollowerFn(mark)
     })
   }
 
   // 添加默认关注用户
-  addFollowerFn = (mark) => {
+  addFollowerFn = mark => {
     const { userId } = this.state
     const { addDelAttentionConfigurationUser } = this.props
     if (!userId) {
@@ -81,7 +77,7 @@ class AttentionConfiguration extends React.Component {
     }
     const oJson = {
       code: mark,
-      id: userId
+      id: userId,
     }
     addDelAttentionConfigurationUser(oJson)
   }
@@ -91,10 +87,10 @@ class AttentionConfiguration extends React.Component {
     const { topicUser, attentionConfigurationUser } = this.props
 
     return (
-      <div className='attention-configuration-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="attention-configuration-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="attention-configuration-content">
           <div className="add-follower">
@@ -103,39 +99,46 @@ class AttentionConfiguration extends React.Component {
               <div className="select-user">
                 <p
                   onClick={() => this.setState({ selectUserStatus: !selectUserStatus })}
-                >{userVal ? userVal : '请选择'}</p>
+                >
+                  {userVal || '请选择'}
+
+                </p>
                 {
                   selectUserStatus
-                  ?
-                    <div className="user-wrapper">
-                      <ul>
-                        {
-                          topicUser.data.length
-                            ?
-                            topicUser.data.map((item, i) => {
-                              return (
+                    ? (
+                      <div className="user-wrapper">
+                        <ul>
+                          {
+                            topicUser.data.length
+                              ? topicUser.data.map((item, i) => (
                                 <li
                                   key={i}
                                   onClick={() => this.onSelectUserFn(item.nickname, item.id)}
-                                >{item.nickname}</li>
-                              )
-                            })
-                            :
-                            null
-                        }
-                        <div className="user-footer">
-                          <span
-                            className="active"
-                            onClick={() => this.onSwiperFn(true)}
-                          >上一批</span>
-                          <span
-                            onClick={() => this.onSwiperFn(false)}
-                          >下一批</span>
-                        </div>
-                      </ul>
-                    </div>
-                    :
-                    null
+                                >
+                                  {item.nickname}
+                                </li>
+                              ))
+                              : null
+                          }
+                          <div className="user-footer">
+                            <span
+                              className="active"
+                              onClick={() => this.onSwiperFn(true)}
+                            >
+                              上一批
+
+                            </span>
+                            <span
+                              onClick={() => this.onSwiperFn(false)}
+                            >
+                              下一批
+
+                            </span>
+                          </div>
+                        </ul>
+                      </div>
+                    )
+                    : null
                 }
               </div>
             </div>
@@ -154,31 +157,28 @@ class AttentionConfiguration extends React.Component {
             <div className="topic-main">
               {
                 attentionConfigurationUser
-                ?
-                  attentionConfigurationUser.users
-                  ?
-                    attentionConfigurationUser.users.map((item, i) => {
-                      return (
-                        <ul key={i}>
-                          <li>
-                            <img src={item.avatar}/>
-                          </li>
-                          <li>{item.nickname}</li>
-                          <li>{item.birthday}</li>
-                          <li>{item.create_time}</li>
-                          <li>
-                            <a
-                              href="javascript:;"
-                              onClick={() => this.onDelectFn(item.id, 1)}
-                            >删除</a>
-                          </li>
-                        </ul>
-                      )
-                    })
-                  :
-                    null
-                :
-                  null
+                  ? attentionConfigurationUser.users
+                    ? attentionConfigurationUser.users.map((item, i) => (
+                      <ul key={i}>
+                        <li>
+                          <img src={item.avatar} />
+                        </li>
+                        <li>{item.nickname}</li>
+                        <li>{item.birthday}</li>
+                        <li>{item.create_time}</li>
+                        <li>
+                          <a
+                            // href="javascript:;"
+                            onClick={() => this.onDelectFn(item.id, 1)}
+                          >
+                            删除
+
+                          </a>
+                        </li>
+                      </ul>
+                    ))
+                    : null
+                  : null
               }
             </div>
           </div>
@@ -190,32 +190,32 @@ class AttentionConfiguration extends React.Component {
 
 const mapStateToProps = state => ({
   topicUser: state.topicManagement.topicUser,
-  attentionConfigurationUser: state.attentionConfiguration.attentionConfigurationUser
+  attentionConfigurationUser: state.attentionConfiguration.attentionConfigurationUser,
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUserList: (data) => {
+  getUserList: data => {
     dispatch({
       type: 'GET_TOPIC_PUBLIC_USER',
-      data
+      data,
     })
   },
   getAttentionConfigurationUser: data => {
     dispatch({
-      type: 'GET_ATTENTION_CONFIGURATION_USER'
+      type: 'GET_ATTENTION_CONFIGURATION_USER',
     })
   },
   addDelAttentionConfigurationUser: data => {
     dispatch({
       type: 'ADD_DEL_ATTENTION_CONFIGURATION_USER',
-      data
+      data,
     })
   },
 })
 
 const AttentionConfigurationProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AttentionConfiguration)
 
 export default AttentionConfigurationProps

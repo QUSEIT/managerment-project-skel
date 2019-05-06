@@ -1,7 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
 
 class Setting extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class Setting extends React.Component {
     this.state = {
       oldpwd: '',
       password: '',
-      confirmpwd: ''
+      confirmpwd: '',
     }
   }
 
@@ -36,9 +36,9 @@ class Setting extends React.Component {
       return false
     }
     const data = {
-      oldpwd: oldpwd,
-      password: password,
-      confirmpwd: confirmpwd
+      oldpwd,
+      password,
+      confirmpwd,
     }
     onEditModifyPassword(data)
   }
@@ -48,7 +48,7 @@ class Setting extends React.Component {
     this.setState({
       oldpwd: '',
       password: '',
-      confirmpwd: ''
+      confirmpwd: '',
     })
   }
 
@@ -56,56 +56,60 @@ class Setting extends React.Component {
     const { oldpwd, password, confirmpwd } = this.state
 
     return (
-      <div className='setting-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="setting-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
-        <div className='main-container'>
+        <div className="main-container">
           <ul>
             <li>
               <h4>旧密码：</h4>
-              <div className='input-box'>
+              <div className="input-box">
                 <input
-                  type='password'
+                  type="password"
                   value={oldpwd}
-                  placeholder='请输入原始密码'
-                  onChange={(e) => this.setState({ oldpwd: e.target.value })}
+                  placeholder="请输入原始密码"
+                  onChange={e => this.setState({ oldpwd: e.target.value })}
                 />
               </div>
             </li>
             <li>
               <h4>新密码：</h4>
-              <div className='input-box'>
+              <div className="input-box">
                 <input
-                  type='password'
+                  type="password"
                   value={password}
-                  placeholder='请输入新密码'
-                  onChange={(e) => this.setState({ password: e.target.value })}
+                  placeholder="请输入新密码"
+                  onChange={e => this.setState({ password: e.target.value })}
                 />
               </div>
             </li>
             <li>
               <h4>确认密码：</h4>
-              <div className='input-box'>
+              <div className="input-box">
                 <input
-                  type='password'
+                  type="password"
                   value={confirmpwd}
-                  placeholder='请再次输入新密码'
-                  onChange={(e) => this.setState({ confirmpwd: e.target.value })}
+                  placeholder="请再次输入新密码"
+                  onChange={e => this.setState({ confirmpwd: e.target.value })}
                 />
               </div>
             </li>
           </ul>
-          <div className='button-container'>
+          <div className="button-container">
             <div
-              className='button active'
+              className="button active"
               onClick={() => this.handleSubmit()}
-            >提交</div>
+            >
+              提交
+            </div>
             <div
-              className='button'
+              className="button"
               onClick={() => this.onResetFormFn()}
-            >重置</div>
+            >
+              重置
+            </div>
           </div>
         </div>
       </div>
@@ -120,14 +124,14 @@ const mapDispatchToProps = dispatch => ({
   onEditModifyPassword: data => {
     dispatch({
       type: 'EDIT_MODIFY_PASSWORD',
-      data
+      data,
     })
   },
 })
 
 const SettingProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Setting)
 
 export default SettingProps

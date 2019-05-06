@@ -1,8 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
-import { uploadQiniuFn, bktClouddnUrl } from "../../../api/upTokenApi"
+import { uploadQiniuFn, bktClouddnUrl } from '../../../api/upTokenApi'
 
 class UserManagementAdd extends React.Component {
   // 状态机
@@ -12,7 +12,7 @@ class UserManagementAdd extends React.Component {
       localAvatarUrl: '',
       avatarFirstObj: {},
       nickname: '',
-      sex: '0'
+      sex: '0',
     }
   }
 
@@ -28,11 +28,11 @@ class UserManagementAdd extends React.Component {
   }
 
   // 上传头像
-  uploadFirstImg = (e) => {
+  uploadFirstImg = e => {
     let firstImg = e.target.files
     this.setState({
       localAvatarUrl: window.URL.createObjectURL(firstImg[0]),
-      avatarFirstObj: firstImg[0]
+      avatarFirstObj: firstImg[0],
     })
   }
 
@@ -55,22 +55,22 @@ class UserManagementAdd extends React.Component {
     const params = new FormData()
     params.append('file', avatarFirstObj, avatarFirstObj.name)
     params.append('token', uploadToke)
-    uploadQiniuFn(params).then((res) => {
+    uploadQiniuFn(params).then(res => {
       const imgUrl = bktClouddnUrl + res.data.hash
       this.setState({
-        localAvatarUrl: imgUrl
+        localAvatarUrl: imgUrl,
       })
       this.onPublishFn()
     })
   }
 
-  onPublishFn () {
+  onPublishFn() {
     const { localAvatarUrl, nickname, sex } = this.state
     const { onAddUser } = this.props
     const oJson = {
       avatar: localAvatarUrl,
-      nickname: nickname,
-      gender: sex
+      nickname,
+      gender: sex,
     }
     onAddUser(oJson)
   }
@@ -79,32 +79,34 @@ class UserManagementAdd extends React.Component {
     const { localAvatarUrl, nickname } = this.state
 
     return (
-      <div className='user-management-add-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="user-management-add-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="form-warp">
           <h3>选择头像</h3>
           <div className="upload-wrapper">
             {
               localAvatarUrl
-              ?
-                <div className="avatar">
-                  <img src={localAvatarUrl}/>
-                </div>
-                :
-                <div className="upload-input">
-                  <i>
-                    <img src="/static/img/camera-icon.png" />
-                  </i>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="file"
-                    onChange={(e) => this.uploadFirstImg(e)}
-                  />
-                </div>
+                ? (
+                  <div className="avatar">
+                    <img src={localAvatarUrl} />
+                  </div>
+                )
+                : (
+                  <div className="upload-input">
+                    <i>
+                      <img src="/static/img/camera-icon.png" />
+                    </i>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="file"
+                      onChange={e => this.uploadFirstImg(e)}
+                    />
+                  </div>
+                )
             }
           </div>
           <h3>输入昵称</h3>
@@ -113,12 +115,12 @@ class UserManagementAdd extends React.Component {
               type="text"
               value={nickname}
               placeholder="Enter something..."
-              onChange={(e) => this.setState({ nickname: e.target.value })}
+              onChange={e => this.setState({ nickname: e.target.value })}
             />
           </div>
           <h3>选择性别</h3>
           <div className="sex-wrapper">
-            <select onChange={(e) => this.setState({ sex: e.target.value })}>
+            <select onChange={e => this.setState({ sex: e.target.value })}>
               <option value="0">男</option>
               <option value="1">女</option>
             </select>
@@ -131,26 +133,26 @@ class UserManagementAdd extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  uploadToke: state.common.uploadToke
+  uploadToke: state.common.uploadToke,
 })
 
 const mapDispatchToProps = dispatch => ({
   getUptoken: data => {
     dispatch({
-      type: 'GET_UP_TOKEN'
+      type: 'GET_UP_TOKEN',
     })
   },
   onAddUser: data => {
     dispatch({
       type: 'ADD_USER_MANAGEMENT',
-      data
+      data,
     })
-  }
+  },
 })
 
 const UserManagementAddProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserManagementAdd)
 
 export default UserManagementAddProps
