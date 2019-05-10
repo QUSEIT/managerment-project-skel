@@ -1,8 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import Router from 'next/router'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
-import Router from "next/router"
 
 class UserManagement extends React.Component {
   // 状态机
@@ -31,10 +31,10 @@ class UserManagement extends React.Component {
     const { memberList } = this.props
 
     return (
-      <div className='user-management-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="user-management-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="user-management-content">
           <div className="add-type-wrapper">
@@ -53,28 +53,22 @@ class UserManagement extends React.Component {
             <div className="topic-main">
               {
                 memberList.length
-                ?
-                  memberList.map((item, i) => {
-                    return (
-                      <ul key={i}>
-                        <li>
-                          <img src={item.avatar}/>
-                        </li>
-                        <li>{item.nickname}</li>
-                        {
-                          item.gender === 0 || item.gender === 1
-                          ?
-                            <li>男</li>
-                            :
-                            <li>女</li>
-                        }
-                        <li>{item.birthday}</li>
-                        <li>{item.create_time}</li>
-                      </ul>
-                    )
-                  })
-                  :
-                  null
+                  ? memberList.map((item, i) => (
+                    <ul key={i}>
+                      <li>
+                        <img src={item.avatar} />
+                      </li>
+                      <li>{item.nickname}</li>
+                      {
+                        item.gender === 0 || item.gender === 1
+                          ? <li>男</li>
+                          : <li>女</li>
+                      }
+                      <li>{item.birthday}</li>
+                      <li>{item.create_time}</li>
+                    </ul>
+                  ))
+                  : null
               }
             </div>
           </div>
@@ -85,21 +79,21 @@ class UserManagement extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  memberList: state.userManagement.memberList
+  memberList: state.userManagement.memberList,
 })
 
 const mapDispatchToProps = dispatch => ({
   getMemberList: page => {
     dispatch({
       type: 'GET_MEMBER_LIST',
-      page
+      page,
     })
-  }
+  },
 })
 
 const UserManagementProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserManagement)
 
 export default UserManagementProps

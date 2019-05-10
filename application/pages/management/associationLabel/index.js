@@ -1,9 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
 import DialogBox from '../../../components/management/dialogBox'
 import InputDialogBox from '../../../components/management/inputDialogBox'
-import { connect } from "react-redux"
 
 class AssociationLabel extends React.Component {
   // 状态机
@@ -13,13 +13,13 @@ class AssociationLabel extends React.Component {
       labelObj: {
         labelId: '',
         title: '',
-        status: 0
+        status: 0,
       },
       dialogObj: {
         title: '',
-        content: ''
+        content: '',
       },
-      labelValue: ''
+      labelValue: '',
     }
   }
 
@@ -39,14 +39,14 @@ class AssociationLabel extends React.Component {
     const { setDialogBoxStatusFn } = this.props
     this.setState({
       labelObj: {
-        labelId: labelId,
-        title: title,
-        status: status
+        labelId,
+        title,
+        status,
       },
       dialogObj: {
         title: '是否移除该标签!',
-        content: '注意一旦移除就无法找回来了!'
-      }
+        content: '注意一旦移除就无法找回来了!',
+      },
     })
     setDialogBoxStatusFn(true)
   }
@@ -64,14 +64,14 @@ class AssociationLabel extends React.Component {
     const oJson = {
       id: labelObj.labelId,
       name: labelObj.title,
-      mark: labelObj.status
+      mark: labelObj.status,
     }
     onDelEditAddLabel(oJson)
     setDialogBoxStatusFn(false)
   }
 
   // input输入值
-  onChangeInput = (e) => {
+  onChangeInput = e => {
     this.setState({ labelValue: e.target.value })
   }
 
@@ -88,7 +88,7 @@ class AssociationLabel extends React.Component {
     const oJson = {
       id: labelObj.labelId,
       name: labelValue,
-      mark: labelObj.status
+      mark: labelObj.status,
     }
     if (labelValue) {
       onDelEditAddLabel(oJson)
@@ -103,10 +103,10 @@ class AssociationLabel extends React.Component {
     const { labelList, setInputDialogBoxStatusFn } = this.props
 
     return (
-      <div className='association-label-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="association-label-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="association-label-main">
           <div className="add-type-wrapper">
@@ -119,11 +119,14 @@ class AssociationLabel extends React.Component {
                   labelObj: {
                     labelId: '',
                     title: '添加标签',
-                    status: 1
-                  }
+                    status: 1,
+                  },
                 })
               }}
-            >添加标签</div>
+            >
+              添加标签
+
+            </div>
           </div>
           <div className="label-wrapper">
             <div className="topic-top">
@@ -135,51 +138,56 @@ class AssociationLabel extends React.Component {
             <div className="topic-main">
               {
                 labelList.length
-                  ?
-                  labelList.map((item, i) => {
-                    return (
-                      <ul key={i}>
-                        <li className="li"># {item.label_title}</li>
-                        <li>
-                          <a
-                            href="javascript:;"
-                            onClick={() => {
-                              setInputDialogBoxStatusFn(true)
-                              this.setState({
-                                labelValue: item.label_title,
-                                labelObj: {
-                                  labelId: item.label_id,
-                                  title: '编辑标签',
-                                  status: 2
-                                }
-                              })
-                            }}
-                          >编辑</a>
-                          <a
-                            className="a"
-                            href="javascript:;"
-                            onClick={() => this.onDelLabelFn(item.label_id, item.label_title, 0)}
-                          >删除</a>
-                        </li>
-                      </ul>
-                    )
-                  })
-                  :
-                  null
+                  ? labelList.map((item, i) => (
+                    <ul key={i}>
+                      <li className="li">
+                        #
+                        {' '}
+                        {item.label_title}
+                      </li>
+                      <li>
+                        <a
+                          // href="javascript:;"
+                          onClick={() => {
+                            setInputDialogBoxStatusFn(true)
+                            this.setState({
+                              labelValue: item.label_title,
+                              labelObj: {
+                                labelId: item.label_id,
+                                title: '编辑标签',
+                                status: 2,
+                              },
+                            })
+                          }}
+                        >
+                          编辑
+
+                        </a>
+                        <a
+                          className="a"
+                          // href="javascript:;"
+                          onClick={() => this.onDelLabelFn(item.label_id, item.label_title, 0)}
+                        >
+                          删除
+                        </a>
+                      </li>
+                    </ul>
+                  ))
+                  : null
               }
             </div>
           </div>
         </div>
-        {/*对话框*/}
+        {/* 对话框 */}
         <DialogBox
           dialogObj={dialogObj}
           onOk={() => this.onOkFn()}
           onCancel={() => this.onCancelFn()}
         />
-        {/*input对话框*/}
+        {/* input对话框 */}
         <InputDialogBox
           InputDialogBoxTitle={labelObj.title}
-          onChange={(e) => this.onChangeInput(e)}
+          onChange={e => this.onChangeInput(e)}
           value={labelValue}
           onOk={() => this.onInputOkFn()}
           onCancel={() => this.onInputCancelFn()}
@@ -190,38 +198,38 @@ class AssociationLabel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  labelList: state.associationLabel.labelList
+  labelList: state.associationLabel.labelList,
 })
 
 const mapDispatchToProps = dispatch => ({
   getAssociationLabel: data => {
     dispatch({
-      type: 'GET_ASSOCIATION_LABEL'
+      type: 'GET_ASSOCIATION_LABEL',
     })
   },
-  onDelEditAddLabel: (data) => {
+  onDelEditAddLabel: data => {
     dispatch({
       type: 'DEL_EDIT_ADD_LABEL',
-      data
+      data,
     })
   },
   setDialogBoxStatusFn: dialogBoxStatus => {
     dispatch({
       type: 'DIALOG_BOX_STATUS',
-      dialogBoxStatus
+      dialogBoxStatus,
     })
   },
   setInputDialogBoxStatusFn: inputDialogBoxStatus => {
     dispatch({
       type: 'INPUT_DIALOG_BOX_STATUS',
-      inputDialogBoxStatus
+      inputDialogBoxStatus,
     })
-  }
+  },
 })
 
 const AssociationLabelProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AssociationLabel)
 
 export default AssociationLabelProps

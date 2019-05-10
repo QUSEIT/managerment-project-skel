@@ -1,7 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
 
 class MoreOperating extends React.Component {
   // 状态机
@@ -9,7 +9,7 @@ class MoreOperating extends React.Component {
     super(props)
     this.state = {
       forumTitle: '',
-      editStatus: false
+      editStatus: false,
     }
   }
 
@@ -20,7 +20,7 @@ class MoreOperating extends React.Component {
   // 加载完成页面之后
   componentDidMount() {
     const { getForumTitle, getForumLogin } = this.props
-    getForumTitle((res) => {
+    getForumTitle(res => {
       this.setState({ forumTitle: res.title })
     })
     getForumLogin()
@@ -42,10 +42,10 @@ class MoreOperating extends React.Component {
     const { forumLoginStatus } = this.props
 
     return (
-      <div className='more-operating-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="more-operating-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="more-operating-content">
           <div className="topic-nav">
@@ -53,34 +53,43 @@ class MoreOperating extends React.Component {
               <p>论坛title：</p>
               {
                 editStatus
-                ?
-                  <input
-                    type="text"
-                    value={forumTitle} onChange={(e) => this.setState({ forumTitle: e.target.value })}
-                  />
-                  :
-                  <p>{forumTitle}</p>
+                  ? (
+                    <input
+                      type="text"
+                      value={forumTitle}
+                      onChange={(e) => this.setState({ forumTitle: e.target.value })}
+                    />
+                  )
+                  : <p>{forumTitle}</p>
               }
             </div>
             {
               editStatus
-              ?
-                <a
-                  href="javascript:;"
-                  onClick={() => this.setState({ editStatus: false })}
-                >保存</a>
-                :
-                <a
-                  href="javascript:;"
-                  onClick={() => this.setState({ editStatus: true })}
-                >编辑</a>
+                ? (
+                  <a
+                    // href="javascript:;"
+                    onClick={() => this.setState({ editStatus: false })}
+                  >
+                    保存
+                    
+                  </a>
+                )
+                : (
+                  <a
+                    // href="javascript:;"
+                    onClick={() => this.setState({ editStatus: true })}
+                  >
+                    编辑
+                    
+                  </a>
+                )
             }
           </div>
           <div className="topic-nav">
             <p>非登录状态api不可调用</p>
             <label className="switch">
               <input type="checkbox" onChange={() => this.onCheckboxFn()} checked={forumLoginStatus} />
-              <div className="slider round"></div>
+              <div className="slider round" />
             </label>
           </div>
           <div className="topic-nav">
@@ -88,7 +97,10 @@ class MoreOperating extends React.Component {
             <div
               className="reset-btn"
               onClick={() => this.onSetResetTokenFn()}
-            >重置</div>
+            >
+              重置
+              
+            </div>
           </div>
         </div>
       </div>
@@ -97,37 +109,37 @@ class MoreOperating extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  forumLoginStatus: state.moreOperating.forumLoginStatus
+  forumLoginStatus: state.moreOperating.forumLoginStatus,
 })
 
 const mapDispatchToProps = dispatch => ({
-  getForumTitle: (callBack) => {
+  getForumTitle: callBack => {
     dispatch({
       type: 'GET_FORUM_TITLE',
-      callBack
+      callBack,
     })
   },
   getForumLogin: data => {
     dispatch({
-      type: 'GET_FORUM_LOGIN'
+      type: 'GET_FORUM_LOGIN',
     })
   },
   setForumLogin: status => {
     dispatch({
       type: 'SET_FORUM_LOGIN',
-      status
+      status,
     })
   },
   setResetToken: data => {
     dispatch({
-      type: 'SET_RESET_TOKEN'
+      type: 'SET_RESET_TOKEN',
     })
   },
 })
 
 const MoreOperatingProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MoreOperating)
 
 export default MoreOperatingProps

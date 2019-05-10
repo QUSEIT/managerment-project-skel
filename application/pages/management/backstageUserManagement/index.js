@@ -1,7 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TopUserInfo from '../../../components/management/topUserInfo'
 import MainNav from '../../../components/management/mainNav'
-import { connect } from "react-redux"
 
 class BackstageUserManagement extends React.Component {
   // 状态机
@@ -25,10 +25,10 @@ class BackstageUserManagement extends React.Component {
     const { adminUserList } = this.props
 
     return (
-      <div className='backstage-user-management-wrapper'>
-        {/*TopUserInfo*/}
+      <div className="backstage-user-management-wrapper">
+        {/* TopUserInfo */}
         <TopUserInfo />
-        {/*MainNav*/}
+        {/* MainNav */}
         <MainNav />
         <div className="backstage-user-management-content">
           <div className="add-type-wrapper">
@@ -44,20 +44,16 @@ class BackstageUserManagement extends React.Component {
             <div className="user-main">
               {
                 adminUserList.length
-                ?
-                  adminUserList.map((item, i) => {
-                    return (
-                      <ul key={i}>
-                        <li className="li">{item.username}</li>
-                        <li>
-                          <a href="javascript:;">编辑</a>
-                          <a className="a" href="javascript:;">删除</a>
-                        </li>
-                      </ul>
-                    )
-                  })
-                  :
-                  null
+                  ? adminUserList.map((item, i) => (
+                    <ul key={i}>
+                      <li className="li">{item.username}</li>
+                      <li>
+                        <a>编辑</a>
+                        <a className="a">删除</a>
+                      </li>
+                    </ul>
+                  ))
+                  : null
               }
             </div>
           </div>
@@ -68,20 +64,20 @@ class BackstageUserManagement extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  adminUserList: state.backstageUserManagement.adminUserList
+  adminUserList: state.backstageUserManagement.adminUserList,
 })
 
 const mapDispatchToProps = dispatch => ({
   getAdminUserList: data => {
     dispatch({
-      type: 'GET_ADMIN_USER_LIST'
+      type: 'GET_ADMIN_USER_LIST',
     })
   },
 })
 
 const BackstageUserManagementProps = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(BackstageUserManagement)
 
 export default BackstageUserManagementProps
