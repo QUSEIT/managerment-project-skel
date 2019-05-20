@@ -108,7 +108,7 @@ class LeftNav extends React.Component {
 
   // 展开二级导航 || 跳转页面
   onSkipPageFn = (event, index, idx, oneTitle, twoTitle) => {
-    const { navList } = this.state
+    const { navList } = this.state;
     const { onLeftNavMaskFn, setActiveNavObjFn } = this.props
     navList.forEach((e, i) => {
       if (index === i && e.childrenList.length) {
