@@ -75,6 +75,7 @@ class TopicManagement extends React.Component {
       topicTypeId,
       pageLength: 1,
     };
+    console.log(oJson)
     getTopicList(oJson);
   }
 
@@ -113,7 +114,6 @@ class TopicManagement extends React.Component {
     });
     setDialogBoxStatusFn(false);
   }
-
   render() {
     const { topicStatusId, topicTypeId, dialogObj } = this.state;
     const { topicList, topicTypeList } = this.props;
@@ -198,13 +198,21 @@ class TopicManagement extends React.Component {
                       <li>{item.star_count}</li>
                       <li>{item.create_time}</li>
                       <li>
-                        <a
+                        {
+                          topicStatusId ===0 ?<a
+                          // href="javascript:;"
+                            // onClick={e => this.onSubTopicFn(e, item.topic_id)}
+                        >
+                          查看
+                          
+                        </a>:<a
                           // href="javascript:;"
                           onClick={e => this.onDelTopicFn(e, item.topic_id)}
                         >
                           删除
                           
                         </a>
+                      }
                       </li>
                     </ul>
                   ))

@@ -220,6 +220,7 @@ const mapDispatchToProps = dispatch => ({
     })
   },
   setInputDialogBoxStatusFn: inputDialogBoxStatus => {
+    console.log(inputDialogBoxStatus)
     dispatch({
       type: 'INPUT_DIALOG_BOX_STATUS',
       inputDialogBoxStatus,

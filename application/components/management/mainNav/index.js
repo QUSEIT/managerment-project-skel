@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import {connect} from "react-redux";
-
+import Router from 'next/router'
 class MainNav extends React.Component {
   constructor(props) {
     super(props)
@@ -12,11 +12,12 @@ class MainNav extends React.Component {
   }
 
   componentDidMount() {
+    const url = this.props;
+    console.log(url)
   }
 
   render() {
-    const { activeNavObj } = this.props
-
+    const { activeNavObj } = this.props;
     return (
       <div className='main-nav-wrapper'>
         <div className='main-nav-list'>

@@ -125,7 +125,7 @@ class UserManagementAdd extends React.Component {
               <option value="1">女</option>
             </select>
           </div>
-          <div className="publicBtn" onClick={() => this.onPubFn()}>确定</div>
+          <div className="publicBtn" style={{}} onClick={() => this.onPubFn()}>确定</div>
         </div>
       </div>
     )

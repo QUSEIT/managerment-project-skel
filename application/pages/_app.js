@@ -35,7 +35,7 @@ class Application extends App {
     return (
       <Container>
         <Provider store={store}>
-          <Fragment>
+          <Fragment >
             <HtmlHead />
             <Component {...pageProps} />
             <LeftNav />

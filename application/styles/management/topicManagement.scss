@@ -1,4 +1,5 @@
 .topic-management-wrapper {
+  overflow-y: auto;
   position: fixed;
   left: 0;
   top: 0;
@@ -160,6 +161,7 @@
 
 @media screen and (max-width: 800px) {
   .topic-management-wrapper {
+    overflow-y: auto;
     padding: 175px 0 0 0;
   }
 }
