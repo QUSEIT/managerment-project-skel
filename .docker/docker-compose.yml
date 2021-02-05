@@ -22,7 +22,7 @@ services:
       - "db"
 
   traefik:
-    image: traefik
+    image: traefik:v1.7
     restart: unless-stopped
     command: -c /dev/null --web --docker --logLevel=INFO
     ports:
